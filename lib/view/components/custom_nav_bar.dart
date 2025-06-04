@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../core/colors.dart'; // Assuming AppColors is here
-import '../../core/fonts.dart'; // Assuming AppFonts might be used for label styles
 
 class CustomNavBar extends StatelessWidget {
   final int selectedIndex;

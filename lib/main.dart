@@ -11,7 +11,7 @@ void main() async {
   try {
     await dotenv.load(fileName: ".env");
   } catch (e) {
-    print('Warning: Could not load .env file');
+    // print('Warning: Could not load .env file');
   }
   runApp(const MyApp());
 }

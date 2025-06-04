@@ -23,7 +23,7 @@ class HomeController extends GetxController {
       products.assignAll(result);
     } catch (e) {
       // Handle error
-      print('Error fetching products: $e');
+      // print('Error fetching products: $e');
     } finally {
       isLoading(false);
     }

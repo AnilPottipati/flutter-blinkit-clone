@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Retained for GetBuilder
 import '../../data/controller/home_controller.dart';
 import '../../data/repo/product_repo.dart';
-import '../../data/service/api_service.dart';
+// import '../../data/service/api_service.dart'; // No longer directly used here
 import '../screens/home_screen.dart';
 import '../screens/support_screen.dart'; 
 import '../screens/orders_screen.dart';  
@@ -11,7 +11,7 @@ import '../screens/profile_screen.dart';
 import '../components/custom_nav_bar.dart'; 
 
 class BottomNavigationWrapper extends StatefulWidget {
-  const BottomNavigationWrapper({Key? key}) : super(key: key);
+  const BottomNavigationWrapper({super.key});
 
   @override
   State<BottomNavigationWrapper> createState() => _BottomNavigationWrapperState();
@@ -27,7 +27,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
     super.initState();
     _screens = [
       GetBuilder<HomeController>(
-        init: HomeController(ProductRepo(ApiService())),
+        init: HomeController(ProductRepo()),
         builder: (controller) => const HomeScreen(),
       ),
       const SupportScreen(),

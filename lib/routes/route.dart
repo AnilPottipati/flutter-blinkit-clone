@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import '../view/screens/home_screen.dart';
 import '../view/screens/splash_screen.dart';
 import '../view/wrappers/bottom_navigation_wrapper.dart';
 

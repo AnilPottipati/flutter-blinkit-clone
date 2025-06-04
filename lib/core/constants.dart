@@ -1,12 +1,12 @@
 class AppConstants {
   // API Endpoints
-  static const String BASE_URL = 'https://api.blinkit.com';
+  static const String baseUrl = 'https://api.blinkit.com';
   
   // Theme Colors
-  static const String PRIMARY_COLOR = '#FF6B6B';
-  static const String SECONDARY_COLOR = '#4ECDC4';
-  static const String TEXT_COLOR = '#333333';
+  static const String primaryColor = '#FF6B6B';
+  static const String secondaryColor = '#4ECDC4';
+  static const String textColor = '#333333';
   
   // App Version
-  static const String APP_VERSION = '1.0.0';
+  static const String appVersion = '1.0.0';
 }
