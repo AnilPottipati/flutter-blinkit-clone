@@ -1,4 +1,4 @@
-import '../model/main_category.dart';
+import '../main_category_model.dart';
 import '../model/category_group.dart';
 
 final List<CategoryGroup> appCategoryGroups = [
@@ -7,7 +7,7 @@ final List<CategoryGroup> appCategoryGroups = [
     categories: [
       MainCategory(
         name: 'Fruits & Vegetables',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Fruits+%26+Vegetables',
+        imageUrl: 'assets/images/categories/fruits_vegetables.jpeg',
         subcategories: [
           'Fresh Vegetables',
           'Leafy Greens',
@@ -20,7 +20,7 @@ final List<CategoryGroup> appCategoryGroups = [
       ),
       MainCategory(
         name: 'Bakery, Cakes & Dairy',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Bakery',
+        imageUrl: 'assets/images/categories/bakery_cakes_dairy.jpeg',
         subcategories: [
           'Breads & Buns',
           'Cakes & Pastries',
@@ -33,7 +33,7 @@ final List<CategoryGroup> appCategoryGroups = [
       ),
       MainCategory(
         name: 'Meat, Eggs & Seafood',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Meat',
+        imageUrl: 'assets/images/categories/meat_eggs_seafood.jpeg',
         subcategories: [
           'Chicken',
           'Mutton',
@@ -50,7 +50,7 @@ final List<CategoryGroup> appCategoryGroups = [
     categories: [
       MainCategory(
         name: 'Foodgrains, Oil & Masala',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Foodgrains',
+        imageUrl: 'assets/images/categories/foodgrains_oil_masala.jpeg',
         subcategories: [
           'Atta, Flours & Sooji',
           'Rice & Rice Products',
@@ -68,7 +68,7 @@ final List<CategoryGroup> appCategoryGroups = [
     categories: [
       MainCategory(
         name: 'Snacks & Munchies',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Snacks',
+        imageUrl: 'assets/images/categories/snacks_munchies.jpeg',
         subcategories: [
           'Chips & Namkeen',
           'Popcorn & Fryums',
@@ -80,7 +80,7 @@ final List<CategoryGroup> appCategoryGroups = [
       ),
       MainCategory(
         name: 'Beverages',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Beverages',
+        imageUrl: 'assets/images/categories/beverages.jpeg',
         subcategories: [
           'Soft Drinks',
           'Juices',
@@ -93,7 +93,7 @@ final List<CategoryGroup> appCategoryGroups = [
       ),
       MainCategory(
         name: 'Breakfast & Instant Food',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Breakfast',
+        imageUrl: 'assets/images/categories/breakfast_instant_food.jpeg',
         subcategories: [
           'Cereals & Oats',
           'Instant Noodles & Pasta',
@@ -104,7 +104,7 @@ final List<CategoryGroup> appCategoryGroups = [
       ),
       MainCategory(
         name: 'Sauces & Condiments',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Sauces',
+        imageUrl: 'assets/images/categories/sauces_condiments.jpeg',
         subcategories: [
           'Ketchup & Spreads',
           'Cooking Sauces',
@@ -115,7 +115,7 @@ final List<CategoryGroup> appCategoryGroups = [
       ),
       MainCategory(
         name: 'Frozen Food',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Frozen+Food',
+        imageUrl: 'assets/images/categories/frozen_food.jpeg',
         subcategories: [
           'Ice Creams & Desserts',
           'Frozen Veg Snacks',
@@ -130,7 +130,7 @@ final List<CategoryGroup> appCategoryGroups = [
     categories: [
       MainCategory(
         name: 'Cleaning & Household',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Cleaning',
+        imageUrl: 'assets/images/categories/cleaning_household.jpeg',
         subcategories: [
           'Dishwashing',
           'Detergents & Fabric Care',
@@ -142,7 +142,7 @@ final List<CategoryGroup> appCategoryGroups = [
       ),
       MainCategory(
         name: 'Personal Care',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Personal+Care',
+        imageUrl: 'assets/images/categories/personal_care.jpeg',
         subcategories: [
           'Hair Care',
           'Oral Care',
@@ -156,7 +156,7 @@ final List<CategoryGroup> appCategoryGroups = [
       ),
       MainCategory(
         name: 'Baby Care',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Baby+Care',
+        imageUrl: 'assets/images/categories/baby_care.jpeg',
         subcategories: [
           'Diapers & Wipes',
           'Baby Food',
@@ -166,7 +166,7 @@ final List<CategoryGroup> appCategoryGroups = [
       ),
       MainCategory(
         name: 'Pet Care',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Pet+Care',
+        imageUrl: 'assets/images/categories/pet_care.jpeg',
         subcategories: [
           'Dog Food',
           'Cat Food',
@@ -176,7 +176,7 @@ final List<CategoryGroup> appCategoryGroups = [
       ),
       MainCategory(
         name: 'Health & Wellness',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Health',
+        imageUrl: 'assets/images/categories/health_wellness.jpeg',
         subcategories: [
           'Vitamins & Supplements',
           'First Aid',
@@ -187,7 +187,7 @@ final List<CategoryGroup> appCategoryGroups = [
       ),
       MainCategory(
         name: 'Pooja Needs / Festive Essentials',
-        imageUrl: 'https://via.placeholder.com/100x100.png?text=Pooja+Needs',
+        imageUrl: 'assets/images/categories/pooja_needs.jpeg',
         subcategories: [
           'Agarbatti & Dhoop',
           'Camphor, Cotton Wicks',

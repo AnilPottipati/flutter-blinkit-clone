@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/colors.dart';
 import '../../core/fonts.dart';
-import '../../data/model/category_group.dart'; 
+ 
 import '../../data/static_data/app_main_categories.dart'; 
 import './grid_category_item_widget.dart';
 

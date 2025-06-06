@@ -17,7 +17,7 @@ class SubcategoryItemWidget extends StatelessWidget {
           Icon(
             Icons.circle,
             size: 6.sp,
-            color: AppColors.textSecondary.withOpacity(0.6),
+            color: AppColors.textSecondary.withAlpha((255 * 0.6).round()),
           ),
           SizedBox(width: 8.w),
           Expanded(

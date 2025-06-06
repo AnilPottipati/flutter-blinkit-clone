@@ -57,7 +57,7 @@ class MainCategoryCardWidget extends StatelessWidget {
                   SizedBox(height: 6.h),
                   ...mainCategory.subcategories.map((sub) {
                     return SubcategoryItemWidget(subcategoryName: sub);
-                  }).toList(),
+                  }),
                 ],
               ),
             ),

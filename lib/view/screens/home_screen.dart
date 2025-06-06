@@ -10,9 +10,9 @@ import '../../core/fonts.dart';
 import '../components/featured_section_widget.dart';
 import '../components/product_grid_section_widget.dart'; // Added for Bestsellers
 import '../components/all_categories_section_widget.dart'; // Added for Main Categories list
-import '../../data/model/top_category.dart'; // For sampleTopCategories
 // import '../components/top_category_icon_strip.dart'; // No longer directly used here
 import '../components/home_custom_sliver_app_bar.dart'; // For HomeCustomSliverAppBar
+import '../../data/model/top_category.dart'; // Now imports sampleTopCategories as well
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,80 +21,10 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
-  late ScrollController _scrollController;
-  // Color _appBarColor = AppColors.primary; // Replaced by _colorTweenAnimation.value
-  Color _appBarItemColor = Colors.white;
-  Color _searchIconColor = AppColors.textHintDarkBg;
-  Color _categoryStripItemColor = Colors.white;
-
-  late AnimationController _colorAnimationController;
-  late Animation<Color?> _colorTweenAnimation;
-
-  // Threshold to change color, roughly the height of the collapsible part above the main toolbar.
-  // kToolbarHeight (for main app bar) + 35.h (for text section) = expandedHeight for flexible part.
-  // The actual flexible part that scrolls away before pinning is about 35.h.
-  // Let's set threshold slightly less than the text section's height to trigger change earlier.
-  final double _scrollThreshold = 30.h; 
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_scrollListener);
-
-    _colorAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _colorTweenAnimation = ColorTween(
-      begin: AppColors.primary,
-      end: AppColors.background,
-    ).animate(_colorAnimationController)
-      ..addListener(() {
-        setState(() {}); // Rebuild to reflect color animation
-      });
-  }
-
-  void _scrollListener() {
-    bool shouldBeCollapsed = _scrollController.offset > _scrollThreshold;
-
-    if (shouldBeCollapsed) {
-      if (_colorAnimationController.status != AnimationStatus.completed && _colorAnimationController.status != AnimationStatus.forward) {
-        _colorAnimationController.forward();
-      }
-      if (_appBarItemColor != AppColors.textDark) {
-        setState(() {
-          _appBarItemColor = AppColors.textDark;
-          _searchIconColor = AppColors.textMedium;
-          _categoryStripItemColor = AppColors.primary; // Or AppColors.textDark if better contrast
-        });
-      }
-    } else { // Should be expanded
-      if (_colorAnimationController.status != AnimationStatus.dismissed && _colorAnimationController.status != AnimationStatus.reverse) {
-        _colorAnimationController.reverse();
-      }
-      if (_appBarItemColor != Colors.white) {
-        setState(() {
-          _appBarItemColor = Colors.white;
-          _searchIconColor = AppColors.textHintDarkBg;
-          _categoryStripItemColor = Colors.white;
-        });
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_scrollListener);
-    _scrollController.dispose();
-    _colorAnimationController.dispose();
-    super.dispose();
-  }
-
-  @override
+class _HomeScreenState extends State<HomeScreen> {
+    @override
   Widget build(BuildContext context) {
-    final HomeController productController =
+    final HomeController homeController =
         Get.isRegistered<HomeController>()
             ? Get.find<HomeController>()
             : Get.put(HomeController(ProductRepo()));
@@ -111,29 +41,34 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       // appBar: const HomeAppBar(), // Replaced by SliverAppBar in CustomScrollView
       body: RefreshIndicator(
         onRefresh: () async {
-          await productController.fetchProducts();
-          await categoryController.fetchCategories();
+          await homeController.fetchProducts();
+          await categoryController.fetchCategories(); // Assuming CategoryController is still needed for other parts
         },
-        child: CustomScrollView(
-          controller: _scrollController, // Assign scroll controller
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (ScrollNotification scrollInfo) {
+            if (scrollInfo is ScrollUpdateNotification || scrollInfo is ScrollEndNotification) {
+              homeController.handleScroll();
+            }
+            return false;
+          },
+          child: CustomScrollView(
+          controller: homeController.scrollController, // Use controller from HomeController
           slivers: [
-            HomeCustomSliverAppBar(
-              backgroundColor: _colorTweenAnimation.value,
-              itemColor: _appBarItemColor,
-              searchIconColor: _searchIconColor,
-              categoryStripItemColor: _categoryStripItemColor,
+            Obx(() => HomeCustomSliverAppBar(
+              backgroundColor: homeController.appBarColor.value,
+              itemColor: homeController.appBarItemColor.value,
+              searchIconColor: homeController.searchIconColor.value,
+              categoryStripItemColor: homeController.categoryStripItemColor.value,
               expandedHeight: kToolbarHeight + 35.h + 100.h + 60.h,
-              sampleTopCategories: sampleTopCategories,
+              sampleTopCategories: sampleTopCategories, // Use imported list
               onWalletPressed: () {
                 // TODO: Navigate to wallet
-              },
-              onProfilePressed: () {
-                // TODO: Navigate to profile
               },
               onSearchTap: () {
                 // TODO: Handle search tap
               },
-            ),
+              showCategoryStrip: true,
+            )),
             // Body content starts here, converted to slivers
             SliverToBoxAdapter(
               child: SizedBox(
@@ -234,11 +169,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             ),
             SliverToBoxAdapter(child: SizedBox(height: 20.h)),
             SliverToBoxAdapter(child: FeaturedSectionWidget()),
-            SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+            // SliverToBoxAdapter(child: SizedBox(height: 20.h)),
             SliverToBoxAdapter(child: AllCategoriesSectionWidget()),
             SliverToBoxAdapter(child: SizedBox(height: 20.h)),
           ],
         ),
+       ), // Close NotificationListener
       ),
     );
   }

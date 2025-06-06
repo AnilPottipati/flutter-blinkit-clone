@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../core/colors.dart';
 import '../../core/fonts.dart';
-import '../../data/model/main_category.dart';
+import '../../data/main_category_model.dart';
 
 class GridCategoryItemWidget extends StatelessWidget {
   final MainCategory category;
@@ -24,7 +24,7 @@ class GridCategoryItemWidget extends StatelessWidget {
         elevation: 0.5, // Subtle shadow
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.r),
-          side: BorderSide(color: AppColors.border.withOpacity(0.5), width: 0.5),
+          side: BorderSide(color: AppColors.border.withAlpha((255 * 0.5).round()), width: 0.5),
         ),
         color: AppColors.cardBackground, // Or Colors.white
         child: Padding(

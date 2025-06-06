@@ -13,8 +13,8 @@ class HomeCustomSliverAppBar extends StatelessWidget {
   final double expandedHeight;
   final List<TopCategory> sampleTopCategories;
   final VoidCallback? onWalletPressed;
-  final VoidCallback? onProfilePressed;
   final VoidCallback? onSearchTap;
+  final bool showCategoryStrip;
 
   const HomeCustomSliverAppBar({
     super.key,
@@ -25,8 +25,8 @@ class HomeCustomSliverAppBar extends StatelessWidget {
     required this.expandedHeight,
     required this.sampleTopCategories,
     this.onWalletPressed,
-    this.onProfilePressed,
     this.onSearchTap,
+    required this.showCategoryStrip,
   });
 
   @override
@@ -48,34 +48,26 @@ class HomeCustomSliverAppBar extends StatelessWidget {
           ),
           onPressed: onWalletPressed,
         ),
-        IconButton(
-          icon: Icon(
-            Icons.person_outline,
-            color: itemColor,
-            size: 24.sp,
-          ),
-          onPressed: onProfilePressed,
-        ),
         SizedBox(width: 8.w),
       ],
       bottom: PreferredSize(
         preferredSize: Size.fromHeight(
-          60.h + 100.h, // Search bar + Icon strip height
+          showCategoryStrip
+              ? (60.h + 100.h)
+              : 60.h, // Search bar height + optional Icon strip height
         ),
         child: Container(
-          color: backgroundColor, // Animated background for the bottom pinned section
+          color:
+              backgroundColor, // Animated background for the bottom pinned section
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 8.h,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 child: TextField(
                   decoration: InputDecoration(
                     hintText: 'Search "travel essentials"',
                     hintStyle: AppFonts.bodyMedium.copyWith(
-                      color: searchIconColor, 
+                      color: searchIconColor,
                     ),
                     prefixIcon: Icon(
                       Icons.search,
@@ -112,10 +104,15 @@ class HomeCustomSliverAppBar extends StatelessWidget {
                   onTap: onSearchTap,
                 ),
               ),
-              TopCategoryIconStrip(
-                categories: sampleTopCategories,
-                iconColor: categoryStripItemColor,
-              ),
+              if (showCategoryStrip)
+                TopCategoryIconStrip(
+                  categories: sampleTopCategories,
+                  iconColor: categoryStripItemColor,
+                ),
+              if (showCategoryStrip)
+                SizedBox(
+                  height: 0.h,
+                ), // Ensures consistent spacing if needed, can be adjusted or removed
             ],
           ),
         ),
@@ -140,7 +137,9 @@ class HomeCustomSliverAppBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: kToolbarHeight + 35.h, // Explicit height for the text section
+                  height:
+                      kToolbarHeight +
+                      35.h, // Explicit height for the text section
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   alignment: Alignment.centerLeft,
                   child: Column(
