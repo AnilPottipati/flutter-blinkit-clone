@@ -15,7 +15,7 @@ class ApiService {
         return handler.next(options);
       },
       onError: (error, handler) {
-        print('API Error: ${error.message}');
+        // print('API Error: ${error.message}');
         return handler.next(error);
       },
     ));

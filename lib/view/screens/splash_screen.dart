@@ -7,7 +7,7 @@ import '../../core/fonts.dart';
 import '../../routes/route.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _navigateToNextScreen() async {
     await Future.delayed(const Duration(seconds: 2));
-    Get.offAllNamed(Routes.home);
+    Get.offAllNamed(Routes.login);
   }
 
   @override

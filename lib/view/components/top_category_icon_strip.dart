@@ -5,14 +5,23 @@ import '../../core/fonts.dart';
 
 class TopCategoryIconStrip extends StatelessWidget {
   final List<TopCategory> categories;
+  final Function? onCategoryTap;
+  final Color iconColor; // Added for dynamic color
 
-  const TopCategoryIconStrip({Key? key, required this.categories}) : super(key: key);
+  const TopCategoryIconStrip({
+    super.key,
+    required this.categories,
+    this.onCategoryTap,
+    required this.iconColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 100.h, // Adjust height as needed
-      color: Colors.transparent, // Background for the strip, to blend with AppBar gradient
+      color:
+          Colors
+              .transparent, // Background for the strip, to blend with AppBar gradient
       padding: EdgeInsets.symmetric(vertical: 12.h),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -21,7 +30,9 @@ class TopCategoryIconStrip extends StatelessWidget {
         itemBuilder: (context, index) {
           final category = categories[index];
           return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w), // Spacing between items
+            padding: EdgeInsets.symmetric(
+              horizontal: 8.w,
+            ), // Spacing between items
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -29,19 +40,25 @@ class TopCategoryIconStrip extends StatelessWidget {
                   width: 56.w, // Icon background size
                   height: 56.w,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.15), // Icon background color on gradient
+                    color: Colors.white.withAlpha(
+                      38,
+                    ), // Icon background color on gradient
                     borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Icon(
                     category.iconData,
                     size: 28.sp,
-                    color: Colors.white, // Icon color on gradient
+                    color:
+                        iconColor, // Use dynamic icon color (StatelessWidget)
                   ),
                 ),
                 SizedBox(height: 6.h),
                 Text(
                   category.name,
-                  style: AppFonts.caption.copyWith(color: Colors.white.withOpacity(0.9), fontSize: 12.sp),
+                  style: AppFonts.caption.copyWith(
+                    color: iconColor.withAlpha(230),
+                    fontSize: 12.sp,
+                  ), // Use dynamic text color (StatelessWidget), maintain alpha
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

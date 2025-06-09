@@ -2,161 +2,180 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../data/controller/home_controller.dart';
-import '../../../data/controller/category_controller.dart'; // Added
+import '../../../data/controller/category_controller.dart'; // Added for Bestsellers
 import '../../data/repo/product_repo.dart';
-import '../../data/service/api_service.dart';
-import '../components/product_card.dart';
-import '../components/category_card_widget.dart'; // Added
-import '../../core/colors.dart'; // Added
-import '../../core/fonts.dart';   // Added
-import '../components/home_app_bar.dart'; // Added for custom AppBar
-// import '../../data/model/top_category.dart'; // No longer needed here, used in HomeAppBar
+import '../../core/colors.dart';
+import '../../core/fonts.dart';
+// import '../components/home_app_bar.dart'; // Replaced by SliverAppBar
+import '../components/featured_section_widget.dart';
+import '../components/product_grid_section_widget.dart'; // Added for Bestsellers
+import '../components/all_categories_section_widget.dart'; // Added for Main Categories list
+// import '../components/top_category_icon_strip.dart'; // No longer directly used here
+import '../components/home_custom_sliver_app_bar.dart'; // For HomeCustomSliverAppBar
+import '../../data/model/top_category.dart'; // Now imports sampleTopCategories as well
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+    @override
   Widget build(BuildContext context) {
-    // Initialize controllers
-    final HomeController productController = Get.put(HomeController(ProductRepo(ApiService())));
-    final CategoryController categoryController = Get.put(CategoryController());
+    final HomeController homeController =
+        Get.isRegistered<HomeController>()
+            ? Get.find<HomeController>()
+            : Get.put(HomeController(ProductRepo()));
+
+    final CategoryController categoryController =
+        Get.isRegistered<CategoryController>()
+            ? Get.find<CategoryController>()
+            : Get.put(CategoryController());
+
+    // Address data - should ideally come from a controller/state
+    // TODO: Replace with actual address logic if needed
 
     return Scaffold(
-      appBar: const HomeAppBar(), // Use the custom AppBar
+      // appBar: const HomeAppBar(), // Replaced by SliverAppBar in CustomScrollView
       body: RefreshIndicator(
         onRefresh: () async {
-          // Refresh both products and categories
-          await productController.fetchProducts();
-          await categoryController.fetchCategories();
+          await homeController.fetchProducts();
+          await categoryController.fetchCategories(); // Assuming CategoryController is still needed for other parts
         },
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0), // AppBar handles its own padding
-          children: [
-            // Banner Section
-            Container(
-              height: 180.h, // Adjust height as needed
-              width: double.infinity,
-              color: AppColors.lightGrey, // Placeholder background
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Image.network(
-                    'https://via.placeholder.com/600x300.png/0077FF/FFFFFF?Text=Ee+Sala+Cup+Namdu!', // Placeholder banner
-                    fit: BoxFit.cover,
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 16.h),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // TODO: Handle 'Treat yourself' button press
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.accent, // Use accent color for button
-                          padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 12.h),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.r),
-                          ),
-                        ),
-                        child: Text(
-                          'Treat yourself',
-                          style: AppFonts.bodyLarge.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (ScrollNotification scrollInfo) {
+            if (scrollInfo is ScrollUpdateNotification || scrollInfo is ScrollEndNotification) {
+              homeController.handleScroll();
+            }
+            return false;
+          },
+          child: CustomScrollView(
+          controller: homeController.scrollController, // Use controller from HomeController
+          slivers: [
+            Obx(() => HomeCustomSliverAppBar(
+              backgroundColor: homeController.appBarColor.value,
+              itemColor: homeController.appBarItemColor.value,
+              searchIconColor: homeController.searchIconColor.value,
+              categoryStripItemColor: homeController.categoryStripItemColor.value,
+              expandedHeight: kToolbarHeight + 35.h + 100.h + 60.h,
+              sampleTopCategories: sampleTopCategories, // Use imported list
+              onWalletPressed: () {
+                // TODO: Navigate to wallet
+              },
+              onSearchTap: () {
+                // TODO: Handle search tap
+              },
+              showCategoryStrip: true,
+            )),
+            // Body content starts here, converted to slivers
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 180.h,
+                width: double.infinity,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.network(
+                      'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                      fit: BoxFit.cover,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.black.withAlpha(153),
+                            Colors.transparent,
+                            Colors.black.withAlpha(153),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: [0.0, 0.5, 1.0],
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 16.h), // Spacing after banner
-
-            // Bestsellers Categories Section - Add padding here now
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Text(
-                'Bestsellers',
-                style: AppFonts.title2.copyWith(color: AppColors.textDark),
-              ),
-            ),
-
-            // Bestsellers Categories Section
-            // The Padding widget above (lines 73-79) already handles this title.
-            SizedBox(height: 12.h),
-            Obx(() {
-              if (categoryController.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (categoryController.errorMessage.value.isNotEmpty) {
-                return Center(child: Text(categoryController.errorMessage.value));
-              }
-              if (categoryController.categories.isEmpty) {
-                return const Center(child: Text('No categories found.'));
-              }
-              return GridView.builder(
-                shrinkWrap: true, // Important for GridView inside ListView
-                physics: const NeverScrollableScrollPhysics(), // Disable scrolling for this grid
-                itemCount: categoryController.categories.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.85, // Adjust as needed for CategoryCardWidget
-                  crossAxisSpacing: 12.w,
-                  mainAxisSpacing: 12.h,
+                    Positioned(
+                      top: 20.h,
+                      left: 16.w,
+                      right: 16.w,
+                      child: Text(
+                        'Ee sala cup namdu!',
+                        textAlign: TextAlign.center,
+                        style: AppFonts.heading2.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24.sp,
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 20.h),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // TODO: Handle 'Treat yourself' button press
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.accent,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 50.w,
+                              vertical: 14.h,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.r),
+                            ),
+                            elevation: 5,
+                          ),
+                          child: Text(
+                            'Treat yourself',
+                            style: AppFonts.bodyLarge.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                itemBuilder: (context, index) {
-                  final category = categoryController.categories[index];
-                  return CategoryCardWidget(category: category);
-                },
-              );
-            }),
-            SizedBox(height: 20.h),
-
-            // Products Section Title (Optional) - Add padding here now
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Text(
-                'Featured this week', // Changed title as per image
-                style: AppFonts.title2.copyWith(color: AppColors.textDark),
               ),
             ),
-            SizedBox(height: 12.h),
-
-            // Products Grid Section
-            Obx(() {
-              if (productController.isLoading.value && productController.products.isEmpty) {
-                 // Show loading only if products are empty, to avoid jumpiness if categories load first
-                return const Center(child: CircularProgressIndicator());
-              }
-              // No specific error handling for products here, assuming HomeController handles it or it's less critical
-              if (productController.products.isEmpty && !productController.isLoading.value) {
-                return const Center(child: Text('No products found.'));
-              }
-              return GridView.builder(
-                shrinkWrap: true, // Important for GridView inside ListView
-                physics: const NeverScrollableScrollPhysics(), // Disable scrolling for this grid
-                padding: EdgeInsets.zero, // Padding is handled by ListView
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.75, // Keep original product card aspect ratio
-                  crossAxisSpacing: 16.w,
-                  mainAxisSpacing: 16.h,
-                ),
-                itemCount: productController.products.length,
-                itemBuilder: (context, index) {
-                  final product = productController.products[index];
-                  return ProductCard(
-                    product: product,
-                    onTap: () {
-                      // TODO: Navigate to product details
-                    },
+            SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+            SliverToBoxAdapter(
+              child: Obx(() {
+                if (categoryController.isLoading.value &&
+                    categoryController.categories.isEmpty) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (categoryController.errorMessage.value.isNotEmpty &&
+                    categoryController.categories.isEmpty) {
+                  return Center(
+                    child: Text(categoryController.errorMessage.value),
                   );
-                },
-              );
-            }),
+                }
+                if (categoryController.categories.isEmpty) {
+                  return const SizedBox.shrink();
+                }
+                final bestsellerCategories =
+                    categoryController.categories.take(6).toList();
+                return ProductGridSectionWidget(
+                  sectionTitle: 'Bestsellers',
+                  categoriesToShow: bestsellerCategories,
+                );
+              }),
+            ),
+            SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+            SliverToBoxAdapter(child: FeaturedSectionWidget()),
+            // SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+            SliverToBoxAdapter(child: AllCategoriesSectionWidget()),
+            SliverToBoxAdapter(child: SizedBox(height: 20.h)),
           ],
         ),
+       ), // Close NotificationListener
       ),
     );
   }
 }
-
