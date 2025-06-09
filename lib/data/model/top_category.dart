@@ -2,10 +2,9 @@ import 'package:flutter/material.dart'; // For IconData
 
 class TopCategory {
   final String name;
-  final IconData iconData; // Placeholder for actual asset path
-  // final String iconAssetPath; // Use this when you have actual assets
+  final IconData iconData;
 
-  TopCategory({
+  const TopCategory({
     required this.name,
     required this.iconData,
     // required this.iconAssetPath,
@@ -13,7 +12,7 @@ class TopCategory {
 }
 
 // Sample static data for top categories
-final List<TopCategory> sampleTopCategories = [
+const List<TopCategory> sampleTopCategories = [
   TopCategory(name: 'All', iconData: Icons.apps),
   TopCategory(name: 'Electronics', iconData: Icons.electrical_services),
   TopCategory(name: 'Beauty', iconData: Icons.face_retouching_natural),

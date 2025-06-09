@@ -7,8 +7,13 @@ import '../../core/fonts.dart';   // Assuming you have AppFonts defined
 
 class CategoryCardWidget extends StatelessWidget {
   final Category category;
+  final VoidCallback? onTap;
 
-  const CategoryCardWidget({Key? key, required this.category}) : super(key: key);
+  const CategoryCardWidget({
+    super.key,
+    required this.category,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +30,7 @@ class CategoryCardWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.15),
+            color: Colors.grey.withAlpha(38),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 2),

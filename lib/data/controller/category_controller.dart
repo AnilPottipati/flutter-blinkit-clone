@@ -1,34 +1,30 @@
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
 import '../model/category.dart';
-import '../repo/category_repo.dart';
 
 class CategoryController extends GetxController {
-  final CategoryRepo _categoryRepo = CategoryRepo(); // Instantiate the repo
-
-  // Observable list for categories
   var categories = <Category>[].obs;
-  // Observable for loading state
   var isLoading = true.obs;
-  // Observable for error state/message
   var errorMessage = ''.obs;
 
   @override
   void onInit() {
+    fetchCategories();
     super.onInit();
-    fetchCategories(); // fetchCategories is async but onInit is sync, so no await here.
-                     // GetX handles the Future internally for onInit.
   }
 
   Future<void> fetchCategories() async {
     try {
       isLoading(true);
       errorMessage(''); // Clear previous error
-      var fetchedCategories = await _categoryRepo.getCategories();
-      categories.assignAll(fetchedCategories);
+      final String response = await rootBundle.loadString('assets/categories.json');
+      final List<dynamic> data = json.decode(response) as List<dynamic>;
+      categories.value = data.map((json) => Category.fromJson(json as Map<String, dynamic>)).toList();
     } catch (e) {
-      print('Error in CategoryController fetching categories: $e');
-      errorMessage('Failed to load categories. Please try again.');
-      // categories.clear(); // Optionally clear categories on error
+      errorMessage('Failed to load categories: ${e.toString()}');
+      // You might want to log the error to a logging service as well
+      // print('Error fetching categories: $e'); 
     } finally {
       isLoading(false);
     }

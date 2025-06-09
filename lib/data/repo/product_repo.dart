@@ -1,10 +1,10 @@
 import '../model/product.dart';
-import '../service/api_service.dart';
+// import '../service/api_service.dart'; // ApiService not used with static data
 
 class ProductRepo {
-  final ApiService _apiService;
+  // final ApiService _apiService; // Not used with static data
   
-  ProductRepo(this._apiService);
+  // ProductRepo(this._apiService); // Not used with static data
   
   Future<List<Product>> getProducts() async {
     // try {

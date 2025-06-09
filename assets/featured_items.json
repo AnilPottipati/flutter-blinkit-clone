@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Fresh Strawberries",
+    "subtitle": "Sweet & Juicy",
+    "imageUrl": "assets/images/placeholder_strawberry.png"
+  },
+  {
+    "title": "Organic Avocado",
+    "subtitle": "Creamy & Nutritious",
+    "imageUrl": "assets/images/placeholder_avocado.png"
+  },
+  {
+    "title": "Artisan Bread",
+    "subtitle": "Freshly Baked Today",
+    "imageUrl": "assets/images/placeholder_bread.png"
+  }
+]

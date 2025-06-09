@@ -29,6 +29,12 @@ class AppFonts {
     color: AppColors.textDark, // Using the added textDark
   );
 
+  static TextStyle get title3 => GoogleFonts.poppins(
+    fontSize: 20.sp, // Slightly smaller than title2
+    fontWeight: FontWeight.w600,
+    color: AppColors.textDark,
+  );
+
   static TextStyle get heading3 => GoogleFonts.poppins(
     fontSize: 24.sp,
     fontWeight: FontWeight.w600,

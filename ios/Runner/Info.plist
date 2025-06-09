@@ -45,5 +45,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to your location to find relevant services and offers near you.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs access to your location to provide continuous updates on services and offers, even in the background.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app needs access to your contacts to help you connect with friends or share information.</string>
 </dict>
 </plist>

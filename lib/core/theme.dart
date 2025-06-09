@@ -4,9 +4,9 @@ import 'constants.dart';
 class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
-      primaryColor: Color(int.parse(AppConstants.PRIMARY_COLOR.replaceFirst('#', '0xff'))),
+      primaryColor: Color(int.parse(AppConstants.primaryColor.replaceFirst('#', '0xff'))),
       colorScheme: ColorScheme.fromSeed(
-        seedColor: Color(int.parse(AppConstants.PRIMARY_COLOR.replaceFirst('#', '0xff'))),
+        seedColor: Color(int.parse(AppConstants.primaryColor.replaceFirst('#', '0xff'))),
       ),
       appBarTheme: const AppBarTheme(
         elevation: 0,
@@ -20,7 +20,7 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(int.parse(AppConstants.PRIMARY_COLOR.replaceFirst('#', '0xff'))),
+          backgroundColor: Color(int.parse(AppConstants.primaryColor.replaceFirst('#', '0xff'))),
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../core/colors.dart'; // Assuming AppColors is here
-import '../../core/fonts.dart'; // Assuming AppFonts might be used for label styles
 
 class CustomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -18,7 +17,7 @@ class CustomNavBar extends StatelessWidget {
       currentIndex: selectedIndex,
       onTap: onItemTapped,
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: AppColors.primary, 
+      selectedItemColor: AppColors.primary,
       unselectedItemColor: AppColors.textSecondary,
       showUnselectedLabels: true,
       items: const [
@@ -28,22 +27,17 @@ class CustomNavBar extends StatelessWidget {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.support_agent_outlined),
-          activeIcon: Icon(Icons.support_agent),
-          label: 'Support',
+          icon: Icon(Icons.replay_outlined),
+          activeIcon: Icon(Icons.replay),
+          label: 'Order Again',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.list_alt_outlined),
-          activeIcon: Icon(Icons.list_alt),
-          label: 'Orders',
+          icon: Icon(Icons.category_outlined),
+          activeIcon: Icon(Icons.category),
+          label: 'Categories',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.account_balance_wallet_outlined),
-          activeIcon: Icon(Icons.account_balance_wallet),
-          label: 'Wallet',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
+          icon: Icon(Icons.person_outlined),
           activeIcon: Icon(Icons.person),
           label: 'Profile',
         ),
