@@ -1,3 +1,4 @@
+import 'package:blinkit_clone/view/screens/support_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -109,28 +110,39 @@ class ProfileScreen extends StatelessWidget {
 
   Widget _buildQuickActionCard(IconData icon, String label) {
     return Expanded(
-      child: Card(
-        elevation: 1,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
-        color: AppColors.cardBackground,
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 8.w),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, color: AppColors.primary, size: 28.sp),
-              SizedBox(height: 8.h),
-              Text(
-                label,
-                textAlign: TextAlign.center,
-                style: AppFonts.bodySmall.copyWith(color: AppColors.textDark, fontWeight: FontWeight.w500, fontSize: 13.sp),
-              ),
-            ],
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12.r),
+        onTap: () {
+          Get.to(() => const SupportScreen());
+        },
+        child: Card(
+          elevation: 1,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+          color: AppColors.cardBackground,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 8.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(icon, color: AppColors.primary, size: 28.sp),
+                SizedBox(height: 8.h),
+                Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: AppFonts.bodySmall.copyWith(
+                    color: AppColors.textDark,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13.sp,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
 
   // Widget _buildAppearanceSection() {
   //   return Padding(
