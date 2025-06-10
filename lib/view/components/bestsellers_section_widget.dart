@@ -1,63 +1,91 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../data/model/product_item.dart';
-import './bestseller_item_card_widget.dart';
-import '../../core/colors.dart';
-import '../../core/fonts.dart';
+import '../../data/model/bestseller_category_model.dart';
+import '../components/bestseller_category_card_widget.dart';
+import '../components/section_header_widget.dart'; // Assuming you have this
 
-class BestsellersSectionWidget extends StatelessWidget {
-  final List<ProductItem> bestsellerProducts;
+class BestsellersSectionWidget extends StatefulWidget {
+  const BestsellersSectionWidget({super.key});
 
-  const BestsellersSectionWidget({super.key, required this.bestsellerProducts});
+  @override
+  State<BestsellersSectionWidget> createState() => _BestsellersSectionWidgetState();
+}
+
+class _BestsellersSectionWidgetState extends State<BestsellersSectionWidget> {
+  List<BestsellerCategory> _bestsellerCategories = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBestsellerCategories();
+  }
+
+  Future<void> _loadBestsellerCategories() async {
+    try {
+      final String jsonString = await rootBundle.loadString('assets/mock_data/mock_bestseller_categories.json');
+      final List<dynamic> jsonList = json.decode(jsonString) as List<dynamic>;
+      setState(() {
+        _bestsellerCategories = jsonList
+            .map((jsonItem) => BestsellerCategory.fromJson(jsonItem as Map<String, dynamic>))
+            .toList();
+        _isLoading = false;
+      });
+    } catch (e) {
+      // Handle error, e.g., show a message or log
+      // print('Error loading bestseller categories: $e');
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (bestsellerProducts.isEmpty) {
-      return const SizedBox.shrink();
+    if (_isLoading) {
+      return const SliverToBoxAdapter(
+        child: Center(child: CircularProgressIndicator()),
+      );
     }
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.w,
-      ).copyWith(top: 20.h, bottom: 12.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(bottom: 12.h),
-            child: Text(
-              'Bestsellers',
-              style: AppFonts.title2.copyWith(
-                color: AppColors.textDark,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-          GridView.builder(
+
+    if (_bestsellerCategories.isEmpty) {
+      return const SliverToBoxAdapter(
+        child: SizedBox.shrink(), // Or some placeholder if needed
+      );
+    }
+
+    return SliverList(
+      delegate: SliverChildListDelegate([
+        const SectionHeaderWidget(title: 'Bestsellers'),
+        SizedBox(height: 12.h),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          child: GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: bestsellerProducts.length,
+            itemCount: _bestsellerCategories.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
+              crossAxisCount: 2,
               crossAxisSpacing: 10.w,
-              mainAxisSpacing: 12.h,
-              childAspectRatio:
-                  0.375, // Increased from 0.375 after removing delivery time from card content.
+              mainAxisSpacing: 10.h,
+              childAspectRatio: 0.75, // Adjust as needed for card proportions
             ),
             itemBuilder: (context, index) {
-              final product = bestsellerProducts[index];
-              return BestsellerItemCardWidget(
-                product: product,
-                onAddTap: () {
-                  // TODO: Implement add to cart functionality
-                },
-                onViewRecipesTap: () {
-                  // TODO: Implement view recipes functionality
+              final category = _bestsellerCategories[index];
+              return BestsellerCategoryCardWidget(
+                category: category,
+                onTap: () {
+                  // Handle tap, e.g., navigate to category screen
+                  // print('Tapped on ${category.name}');
                 },
               );
             },
           ),
-        ],
-      ),
+        ),
+        SizedBox(height: 16.h), // Spacing after the section
+      ]),
     );
   }
 }

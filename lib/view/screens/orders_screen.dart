@@ -27,24 +27,36 @@ class OrdersScreen extends StatelessWidget {
       name: 'Fresh Apples',
       price: 2.50,
       imageUrl: 'assets/images/products/apple.png',
+      mrp: '₹3.00',
+      discount: '16% OFF',
+      tag: 'Fresh',
     );
     final product2 = Product(
       id: 'p2',
       name: 'Organic Bananas',
       price: 1.80,
       imageUrl: 'assets/images/products/banana.png',
+      mrp: '₹2.00',
+      discount: '10% OFF',
+      tag: 'Organic',
     );
     final product3 = Product(
       id: 'p3',
       name: 'Whole Milk (1L)',
       price: 1.20,
       imageUrl: 'assets/images/products/milk.png',
+      mrp: '₹1.50',
+      discount: '20% OFF',
+      tag: 'Dairy',
     );
     final product4 = Product(
       id: 'p4',
       name: 'Brown Bread',
       price: 2.00,
       imageUrl: 'assets/images/products/bread.png',
+      mrp: '₹2.20',
+      discount: '9% OFF',
+      tag: 'Bakery',
     );
 
     return [
