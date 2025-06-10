@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../core/colors.dart';
 import '../../core/fonts.dart';
-import '../../data/model/category.dart'; // Assuming Category model exists
+import '../../data/model/bestseller_category_model.dart';
 
 class BestsellerCategoryCardWidget extends StatelessWidget {
-  final Category category;
+  final BestsellerCategory category;
   final VoidCallback? onTap;
 
   const BestsellerCategoryCardWidget({
@@ -21,92 +21,74 @@ class BestsellerCategoryCardWidget extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.cardBackground, // Or Colors.white if preferred
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withAlpha(26),
+              color: Colors.black.withOpacity(0.05),
               spreadRadius: 1,
-              blurRadius: 3,
-              offset: const Offset(0, 1),
+              blurRadius: 5,
+              offset: const Offset(0, 2),
             ),
           ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // 2x2 Image Grid
             Expanded(
-              flex: 4, // Increased flex for the image grid section
-              child: ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(12.r)),
-                child: Container(
-                  color: AppColors.lightGrey.withAlpha(77), // Light background for the grid area
-                  padding: EdgeInsets.all(4.w), // Padding around the grid
-                  child: GridView.builder(
-                    itemCount: category.productImageUrls.length > 4 ? 4 : category.productImageUrls.length, // Show up to 4 images
-                    physics: const NeverScrollableScrollPhysics(), // Grid shouldn't scroll independently
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 4.w,
-                      mainAxisSpacing: 4.h,
-                      childAspectRatio: 1, // Square images
-                    ),
-                    itemBuilder: (context, index) {
-                      if (index < category.productImageUrls.length) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(8.r), // Rounded corners for individual images
-                          child: CachedNetworkImage(
-                            imageUrl: category.productImageUrls[index],
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => Container(
-                              color: AppColors.mediumGrey.withAlpha(128),
-                              child: Center(child: Icon(Icons.image_outlined, color: AppColors.textHint, size: 20.sp)),
-                            ),
-                            errorWidget: (context, url, error) => Container(
-                              color: AppColors.mediumGrey.withAlpha(128),
-                              child: Center(child: Icon(Icons.broken_image_outlined, color: AppColors.textHint, size: 20.sp)),
-                            ),
-                          ),
-                        );
-                      } else {
-                        // Optional: Placeholder if less than 4 images, though itemCount logic should prevent this.
-                        return Container(
-                           decoration: BoxDecoration(
-                             color: AppColors.mediumGrey.withAlpha(77),
-                             borderRadius: BorderRadius.circular(8.r),
-                           ),
-                        );
-                      }
-                    },
+              flex: 3, // Adjust flex ratio if needed for better image vs text balance
+              child: Padding(
+                padding: EdgeInsets.all(8.w),
+                child: GridView.builder(
+                  itemCount: category.imageUrls.length, // Should be 4 as per model assertion
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 6.w,
+                    mainAxisSpacing: 6.h,
+                    childAspectRatio: 1, // For square images
                   ),
+                  itemBuilder: (context, index) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(8.r),
+                      child: CachedNetworkImage(
+                        imageUrl: category.imageUrls[index],
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Container(
+                          color: AppColors.lightGrey.withOpacity(0.5),
+                          child: Center(child: Icon(Icons.image_outlined, color: AppColors.mediumGrey.withOpacity(0.7), size: 20.sp)),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          color: AppColors.lightGrey.withOpacity(0.3),
+                          child: Center(child: Icon(Icons.broken_image_outlined, color: AppColors.mediumGrey, size: 20.sp)),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
-            Expanded(
-              flex: 2, // Flex for the text section remains similar, or adjust if needed
-              child: Padding(
-                padding: EdgeInsets.all(8.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      category.name,
-                      style: AppFonts.body1Strong.copyWith(fontSize: 13.sp, color: AppColors.textDark),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (category.moreItemsCount > 0) ...[
-                      SizedBox(height: 2.h),
-                      Text(
-                        '+${category.moreItemsCount} more items',
-                        style: AppFonts.caption.copyWith(fontSize: 10.sp, color: AppColors.textSecondary),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ],
-                ),
+            // Category Name and More Count
+            Padding(
+              padding: EdgeInsets.only(left: 10.w, right: 10.w, bottom: 10.h, top: 4.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    category.name,
+                    style: AppFonts.body1Strong.copyWith(fontSize: 13.sp, color: AppColors.textDark),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    '+${category.moreCount} more', // Corrected to use moreCount
+                    style: AppFonts.caption.copyWith(fontSize: 11.sp, color: AppColors.textMedium),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
             ),
           ],

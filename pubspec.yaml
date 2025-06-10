@@ -96,8 +96,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/animations/
-    - assets/categories.json
-    - assets/featured_items.json
+    - assets/mock_data/ # Added for mock JSON data
     - .env
 
   # For details regarding adding assets from package dependencies, see

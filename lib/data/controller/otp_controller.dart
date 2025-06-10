@@ -25,8 +25,8 @@ class OtpController extends GetxController {
 
   @override
   void onClose() {
-    pinController.dispose();
-    _timer?.cancel();
+    _timer?.cancel(); // Cancel the timer first
+    pinController.dispose(); // Then dispose the TextEditingController
     super.onClose();
   }
 
