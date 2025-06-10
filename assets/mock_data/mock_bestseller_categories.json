@@ -1,0 +1,68 @@
+[
+  {
+    "id": "bs_cat_1",
+    "name": "Vegetables & Fruits",
+    "moreCount": 122,
+    "imageUrls": [
+      "https://placehold.co/50x50.png?text=Veg1",
+      "https://placehold.co/50x50.png?text=Veg2",
+      "https://placehold.co/50x50.png?text=Fruit1",
+      "https://placehold.co/50x50.png?text=Fruit2"
+    ]
+  },
+  {
+    "id": "bs_cat_2",
+    "name": "Dairy, Bread & Eggs",
+    "moreCount": 19,
+    "imageUrls": [
+      "https://placehold.co/50x50.png?text=Dairy1",
+      "https://placehold.co/50x50.png?text=Dairy2",
+      "https://placehold.co/50x50.png?text=Bread1",
+      "https://placehold.co/50x50.png?text=Egg1"
+    ]
+  },
+  {
+    "id": "bs_cat_3",
+    "name": "Chips & Namkeen",
+    "moreCount": 291,
+    "imageUrls": [
+      "https://placehold.co/50x50.png?text=Chips1",
+      "https://placehold.co/50x50.png?text=Chips2",
+      "https://placehold.co/50x50.png?text=Namkeen1",
+      "https://placehold.co/50x50.png?text=Namkeen2"
+    ]
+  },
+  {
+    "id": "bs_cat_4",
+    "name": "Drinks & Juices",
+    "moreCount": 102,
+    "imageUrls": [
+      "https://placehold.co/50x50.png?text=Drink1",
+      "https://placehold.co/50x50.png?text=Drink2",
+      "https://placehold.co/50x50.png?text=Juice1",
+      "https://placehold.co/50x50.png?text=Juice2"
+    ]
+  },
+  {
+    "id": "bs_cat_5",
+    "name": "Ice Creams & More",
+    "moreCount": 80,
+    "imageUrls": [
+      "https://placehold.co/50x50.png?text=IceCream1",
+      "https://placehold.co/50x50.png?text=IceCream2",
+      "https://placehold.co/50x50.png?text=Dessert1",
+      "https://placehold.co/50x50.png?text=Dessert2"
+    ]
+  },
+  {
+    "id": "bs_cat_6",
+    "name": "Oil, Ghee & Masala",
+    "moreCount": 153,
+    "imageUrls": [
+      "https://placehold.co/50x50.png?text=Oil1",
+      "https://placehold.co/50x50.png?text=Ghee1",
+      "https://placehold.co/50x50.png?text=Masala1",
+      "https://placehold.co/50x50.png?text=Masala2"
+    ]
+  }
+]

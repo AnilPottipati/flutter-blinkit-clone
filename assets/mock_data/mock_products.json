@@ -1,0 +1,29 @@
+[
+  {
+    "id": "prod1",
+    "imageUrl": "https://placehold.co/150x100.png?text=Rice",
+    "name": "Daawat Raw Sonamasuri Rice (Short Grain)",
+    "price": "\u20B9757",
+    "mrp": "\u20B9900",
+    "discount": "15% OFF",
+    "tag": "10 kg Short Grain"
+  },
+  {
+    "id": "prod2",
+    "imageUrl": "https://placehold.co/150x100.png?text=Power+Bank",
+    "name": "URBN 10000 mAh Power Bank",
+    "price": "\u20B9999",
+    "mrp": "\u20B92999",
+    "discount": "66% OFF",
+    "tag": "Green 22.5 W"
+  },
+  {
+    "id": "prod3",
+    "imageUrl": "https://placehold.co/150x100.png?text=Avocado",
+    "name": "Avocado Hass - Tanzania",
+    "price": "\u20B975",
+    "mrp": "\u20B996",
+    "discount": "21% OFF",
+    "tag": "1 pc (150-200 g)"
+  }
+]

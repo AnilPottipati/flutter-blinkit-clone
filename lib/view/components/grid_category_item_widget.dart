@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../core/colors.dart';
 import '../../core/fonts.dart';
-import '../../data/main_category_model.dart';
+import '../../data/model/main_category.dart';
 
 class GridCategoryItemWidget extends StatelessWidget {
   final MainCategory category;

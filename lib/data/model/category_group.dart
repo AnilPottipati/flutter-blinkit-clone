@@ -1,4 +1,4 @@
-import '../main_category_model.dart'; // Assuming MainCategory is in the same directory or path is adjusted
+import 'main_category.dart';
 
 class CategoryGroup {
   final String title;
