@@ -25,8 +25,12 @@ class OtpController extends GetxController {
 
   @override
   void onClose() {
-    _timer?.cancel(); // Cancel the timer first
-    pinController.dispose(); // Then dispose the TextEditingController
+    _timer?.cancel();
+    // Delay the disposal to the end of the frame to avoid race conditions
+    // with the PinCodeTextField's own disposal logic.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      pinController.dispose();
+    });
     super.onClose();
   }
 

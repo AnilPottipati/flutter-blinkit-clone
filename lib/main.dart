@@ -7,6 +7,7 @@ import 'core/theme.dart';
 import 'routes/route.dart';
 import 'view/screens/splash_screen.dart';
 import 'data/controller/cart_controller.dart';
+import 'data/controller/map_controller.dart';
 
 void main() async {
   try {
@@ -15,6 +16,7 @@ void main() async {
     // print('Warning: Could not load .env file');
   }
   Get.put(CartController()); // Initialize CartController globally
+  Get.put(MapController(), permanent: true); // Initialize MapController globally
   runApp(const MyApp());
 }
 

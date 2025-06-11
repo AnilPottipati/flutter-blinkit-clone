@@ -1,3 +1,4 @@
+import 'package:blinkit_clone/view/screens/maps/map_screen.dart';
 import 'package:get/get.dart';
 import 'package:blinkit_clone/view/screens/auth/login_screen.dart';
 import 'package:blinkit_clone/view/screens/auth/otp_screen.dart';
@@ -5,11 +6,14 @@ import '../view/screens/splash_screen.dart';
 import '../view/wrappers/bottom_navigation_wrapper.dart';
 import '../view/screens/cart_screen.dart';
 import '../view/screens/payment_success_screen.dart';
-import '../view/screens/orders_screen.dart';
+
 import '../view/screens/my_orders_screen.dart';
+import '../view/screens/auth/PermissionGate.dart';
+import '../view/screens/maps/search_screen.dart';
 
 class Routes {
-  static const String initial = '/'; // Typically SplashScreen or LoginScreen based on auth state
+  static const String initial =
+      '/'; // Typically SplashScreen or LoginScreen based on auth state
   static const String splash = '/splash';
   static const String login = '/login';
   static const String otp = '/otp';
@@ -23,16 +27,16 @@ class Routes {
   static const String paymentSuccess = '/payment-success';
   static const String orders = '/orders';
   static const String myOrderDetails = '/my-order-details';
+  static const String permissionGate = '/permission-gate';
+  static const String map = '/map';
+  static const String search = '/search';
+  
 
   static final List<GetPage> pages = [
-    GetPage(
-      name: splash,
-      page: () => const SplashScreen(),
-    ),
-    GetPage(
-      name: login,
-      page: () => const LoginScreen(),
-    ),
+    
+    GetPage(name: splash, page: () => const SplashScreen()),
+    GetPage(name: permissionGate, page: () => const PermissionGate()),
+    GetPage(name: login, page: () => const LoginScreen()),
     GetPage(
       name: otp,
       page: () {
@@ -41,25 +45,26 @@ class Routes {
       },
     ),
     GetPage(
+      name: search,
+      page: () => const SearchScreen(),
+    ),
+    GetPage(
       name: home,
-      page: () => const BottomNavigationWrapper(), // HomeScreen is usually part of this
+      page:
+          () =>
+              const BottomNavigationWrapper(), // HomeScreen is usually part of this
     ),
-    GetPage(
-      name: cart,
-      page: () => const CartScreen(),
-    ),
+    GetPage(name: cart, page: () => const CartScreen()),
     // Add more routes as needed
+    GetPage(name: paymentSuccess, page: () => const PaymentSuccessScreen()),
     GetPage(
-      name: paymentSuccess,
-      page: () => const PaymentSuccessScreen(),
+      name: map,
+      page: () => const MapScreen(),
     ),
     GetPage(
-      name: orders,
-      page: () => const OrdersScreen(),
+      name: search,
+      page: () => const SearchScreen(),
     ),
-    GetPage(
-      name: myOrderDetails,
-      page: () => const MyOrdersScreen(),
-    ),
+    GetPage(name: myOrderDetails, page: () => const MyOrdersScreen()),
   ];
 }

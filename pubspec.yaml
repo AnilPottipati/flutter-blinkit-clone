@@ -66,8 +66,17 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   pin_code_fields: ^8.0.1
-  permission_handler: ^11.3.1 # Added for handling app permissions
+  permission_handler: ^11.3.1
+
   
+  google_maps_flutter: ^2.0.10
+  flutter_polyline_points: ^2.1.0
+  geocoding: ^4.0.0
+  custom_marker_builder: ^0.0.3+1
+  location: ^6.0.2
+  geolocator: ^14.0.1
+  flutter_google_maps_webservices: ^1.1.1
+  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_test:
@@ -94,6 +103,7 @@ flutter:
   # Assets
   assets:
     - assets/images/
+    - assets/maps/
     - assets/images/animations/
     - assets/mock_data/ # Added for mock JSON data
     - .env

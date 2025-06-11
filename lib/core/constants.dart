@@ -1,4 +1,8 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class AppConstants {
+  static final String googleApiKey =
+      dotenv.env['google_api_key'] ?? 'AIzaSyDsC9Qkc4tk1fvNl86jPidqM4g0mKGBmWk';
   // API Endpoints
   static const String baseUrl = 'https://api.blinkit.com';
 
