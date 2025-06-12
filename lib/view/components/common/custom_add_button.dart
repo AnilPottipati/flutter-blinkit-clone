@@ -77,7 +77,7 @@ class _CustomAddButtonState extends State<CustomAddButton> with SingleTickerProv
         width: 85.w, // Slightly smaller
         height: 34.h, // Slightly smaller
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(10.r), // More rounded
           border: Border.all(color: AppColors.primary, width: 1.2), // Thinner border
           boxShadow: [
@@ -136,7 +136,7 @@ class _CustomAddButtonState extends State<CustomAddButton> with SingleTickerProv
           ),
           Text(
             '${cartItem.quantity.value}',
-            style: AppFonts.bodyLarge.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+            style: AppFonts.bodyLarge.copyWith(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.bold),
           ),
           _buildSelectorButton(
             icon: Icons.add,
@@ -156,7 +156,7 @@ class _CustomAddButtonState extends State<CustomAddButton> with SingleTickerProv
       child: Container(
         color: Colors.transparent, // For hit testing
         padding: EdgeInsets.all(4.w),
-        child: Icon(icon, color: Colors.white, size: 18.sp),
+        child: Icon(icon, color: Theme.of(context).colorScheme.onPrimary, size: 18.sp),
       ),
     );
   }

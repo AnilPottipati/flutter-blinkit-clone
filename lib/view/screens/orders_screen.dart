@@ -240,7 +240,7 @@ class OrdersScreen extends StatelessWidget {
             ),
             SizedBox(height: 4.h),
             Text(
-              'Total: \$${order.totalAmount.toStringAsFixed(2)}',
+              'Total: ₹${order.totalAmount.toStringAsFixed(2)}',
               style: AppFonts.bodyMedium.copyWith(
                 fontWeight: FontWeight.w600,
                 color: AppColors.primary,

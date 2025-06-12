@@ -71,7 +71,7 @@ class _HorizontalCategoryCardListState extends State<HorizontalCategoryCardList>
               return Container(
                 width: 140.w,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(12.r),
                   boxShadow: [
                     BoxShadow(

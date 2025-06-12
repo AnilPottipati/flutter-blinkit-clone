@@ -75,7 +75,7 @@ class PaymentController extends GetxController {
       id: 'order_${DateTime.now().millisecondsSinceEpoch}', // Simple unique ID
       items: orderItems,
       orderDate: DateTime.now(),
-      totalAmount: cartController.totalPrice.value,
+      totalAmount: cartController.grandTotal.value,
       status: OrderStatus.processing, // Or OrderStatus.placed
       // shippingAddress: '', // TODO: Get shipping address if available
     );

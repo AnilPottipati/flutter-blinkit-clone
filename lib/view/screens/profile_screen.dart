@@ -6,12 +6,14 @@ import 'package:blinkit_clone/core/fonts.dart';
 import '../components/common/shimmer_box.dart';
 import 'package:blinkit_clone/data/controller/profile_controller.dart';
 
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final ProfileController controller = Get.put(ProfileController());
+    
 
     final RxBool isLoading = false.obs;
     // Simulate loading for shimmer effect
@@ -43,10 +45,6 @@ class ProfileScreen extends StatelessWidget {
           backgroundColor: AppColors.background,
           appBar: AppBar(
             scrolledUnderElevation: 0,
-            // leading: IconButton(
-            //   icon: const Icon(Icons.arrow_back, color: AppColors.textDark),
-            //   onPressed: () => Navigator.of(context).pop(),
-            // ),
             title: Text('Profile', style: AppFonts.heading2.copyWith(color: AppColors.textDark)),
             backgroundColor: AppColors.background,
           ),
@@ -57,7 +55,7 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               _buildQuickActionsSection(controller),
               SizedBox(height: 20.h),
-              // _buildAppearanceSection(),
+              
               SizedBox(height: 15.h),
               _buildSectionHeader('YOUR INFORMATION'),
               _buildProfileListItem(controller, Icons.receipt_long_outlined, 'Your orders', () => controller.navigateToYourOrders()),
@@ -161,30 +159,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  // Widget _buildAppearanceSection() {
-  //   return Padding(
-  //     padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       children: [
-  //         Row(
-  //           children: [
-  //             Icon(Icons.brightness_6_outlined, color: AppColors.textDark, size: 22.sp),
-  //             SizedBox(width: 12.w),
-  //             Text('Appearance', style: AppFonts.bodyLarge.copyWith(color: AppColors.textDark, fontWeight: FontWeight.w500)),
-  //           ],
-  //         ),
-  //         Row(
-  //           children: [
-  //             Text('LIGHT', style: AppFonts.bodyMedium.copyWith(color: AppColors.textMedium, fontWeight: FontWeight.w600)),
-  //             SizedBox(width: 4.w),
-  //             Icon(Icons.keyboard_arrow_down, color: AppColors.textMedium, size: 20.sp),
-  //           ],
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget _buildSectionHeader(String title) {
     return Padding(

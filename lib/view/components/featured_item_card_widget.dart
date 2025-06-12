@@ -77,7 +77,7 @@ class FeaturedItemCardWidget extends StatelessWidget {
                   ),
                   child: Text(
                     item.tag,
-                    style: AppFonts.caption.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10.sp),
+                    style: AppFonts.caption.copyWith(color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.bold, fontSize: 10.sp),
                   ),
                 ),
               ),
@@ -93,7 +93,7 @@ class FeaturedItemCardWidget extends StatelessWidget {
                   children: [
                     Text(
                       item.title,
-                      style: AppFonts.title2.copyWith(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w700),
+                      style: AppFonts.title2.copyWith(color: Theme.of(context).colorScheme.onSurface, fontSize: 18.sp, fontWeight: FontWeight.w700),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -102,7 +102,7 @@ class FeaturedItemCardWidget extends StatelessWidget {
                         padding: EdgeInsets.only(top: 4.h),
                         child: Text(
                           item.subtitle!,
-                          style: AppFonts.bodyMedium.copyWith(color: Colors.white.withOpacity(0.9), fontSize: 13.sp),
+                          style: AppFonts.bodyMedium.copyWith(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.9), fontSize: 13.sp),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

@@ -40,7 +40,7 @@ class TopCategoryIconStrip extends StatelessWidget {
                   width: 56.w, // Icon background size
                   height: 56.w,
                   decoration: BoxDecoration(
-                    color: Colors.white.withAlpha(
+                    color: Theme.of(context).colorScheme.onPrimary.withAlpha(
                       38,
                     ), // Icon background color on gradient
                     borderRadius: BorderRadius.circular(12.r),

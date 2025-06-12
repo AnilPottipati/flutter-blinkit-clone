@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:blinkit_clone/data/controller/cart_controller.dart';
+import 'package:blinkit_clone/data/controller/map_controller.dart';
+import 'package:blinkit_clone/routes/route.dart';
 
 class ProfileController extends GetxController {
   // User Information - Observables for reactivity
@@ -85,8 +88,23 @@ class ProfileController extends GetxController {
   }
 
   void logout() {
-    // TODO: Implement logout logic (e.g., clear user session, navigate to login)
-    Get.snackbar('Action', 'User Logged Out');
-    // Example: Get.offAllNamed('/login');
+    // Clear user-specific data from controllers that are part of the session
+    if (Get.isRegistered<CartController>()) {
+      Get.find<CartController>().clearCart();
+    }
+    if (Get.isRegistered<MapController>()) {
+      Get.find<MapController>().resetController();
+    }
+
+    // Navigate to the splash screen, which will handle the auth flow.
+    // Using offAllNamed removes all previous routes from the stack.
+    Get.offAllNamed(Routes.splash);
+
+    // Optionally, show a confirmation message
+    Get.snackbar(
+      'Logged Out',
+      'You have been successfully logged out.',
+      snackPosition: SnackPosition.BOTTOM,
+    );
   }
 }

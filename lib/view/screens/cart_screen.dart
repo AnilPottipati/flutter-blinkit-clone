@@ -61,11 +61,11 @@ class _CartScreenState extends State<CartScreen> {
     String? userContact = "9876543210";
 
     debugPrint('[CartScreen] Proceeding to open Razorpay checkout.');
-    debugPrint('[CartScreen] Amount: ${_cartController.totalPrice.value}, User: $userName, Email: $userEmail, Contact: $userContact');
+    debugPrint('[CartScreen] Amount: ${_cartController.grandTotal.value}, User: $userName, Email: $userEmail, Contact: $userContact');
     // Update paymentData in PaymentController
     _paymentController.paymentData.update((val) {
       if (val != null) {
-        val.amount = _cartController.totalPrice.value.toString();
+        val.amount = _cartController.grandTotal.value.toString();
         val.description = 'Order from Blinkit Clone'; // Or generate dynamically
         val.prefillEmail = userEmail; // userEmail is non-null here due to initialization
         val.prefillContact = userContact; // userContact is non-null here due to initialization
@@ -223,7 +223,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    '\$${cartItem.product.price.toStringAsFixed(2)}',
+                    '₹${cartItem.product.price.toStringAsFixed(2)}',
                     style: AppFonts.bodyMedium.copyWith(
                       color: AppColors.textMedium,
                     ),
@@ -273,7 +273,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  '\$${cartItem.totalPrice.toStringAsFixed(2)}',
+                  '₹${cartItem.totalPrice.toStringAsFixed(2)}',
                   style: AppFonts.bodyLarge.copyWith(
                     fontWeight: FontWeight.bold,
                     color: AppColors.primary,
@@ -391,7 +391,7 @@ class _CartScreenState extends State<CartScreen> {
                 style: AppFonts.bodyLarge.copyWith(color: AppColors.textMedium),
               ),
               Obx(() => Text(
-                    '\$${_cartController.subtotalPrice.value.toStringAsFixed(2)}',
+                    '₹${_cartController.subtotalPrice.value.toStringAsFixed(2)}',
                     style: AppFonts.bodyLarge.copyWith(color: AppColors.textDark),
                   )),
             ],
@@ -404,10 +404,38 @@ class _CartScreenState extends State<CartScreen> {
                 'Delivery Fee',
                 style: AppFonts.bodyLarge.copyWith(color: AppColors.textMedium),
               ),
+              Obx(() => Text(
+                    '₹${_cartController.deliveryFee.value.toStringAsFixed(2)}',
+                    style: AppFonts.bodyLarge.copyWith(color: AppColors.textDark),
+                  )),
+            ],
+          ),
+                    SizedBox(height: 8.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
               Text(
-                '\$${_cartController.deliveryFee.value.toStringAsFixed(2)}',
-                style: AppFonts.bodyLarge.copyWith(color: AppColors.textDark),
+                'GST (5%)',
+                style: AppFonts.bodyLarge.copyWith(color: AppColors.textMedium),
               ),
+              Obx(() => Text(
+                    '₹${_cartController.gst.value.toStringAsFixed(2)}',
+                    style: AppFonts.bodyLarge.copyWith(color: AppColors.textDark),
+                  )),
+            ],
+          ),
+          SizedBox(height: 8.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'SGST (5%)',
+                style: AppFonts.bodyLarge.copyWith(color: AppColors.textMedium),
+              ),
+              Obx(() => Text(
+                    '₹${_cartController.sgst.value.toStringAsFixed(2)}',
+                    style: AppFonts.bodyLarge.copyWith(color: AppColors.textDark),
+                  )),
             ],
           ),
           Divider(height: 24.h, thickness: 1.h, color: AppColors.lightGrey),
@@ -415,11 +443,11 @@ class _CartScreenState extends State<CartScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Total Amount',
+                'Grand Total Amount',
                 style: AppFonts.title3.copyWith(fontWeight: FontWeight.bold),
               ),
               Obx(() => Text(
-                    '\$${_cartController.totalPrice.value.toStringAsFixed(2)}',
+                    '₹${_cartController.grandTotal.value.toStringAsFixed(2)}',
                     style: AppFonts.title3.copyWith(
                       fontWeight: FontWeight.bold,
                       color: AppColors.primary,

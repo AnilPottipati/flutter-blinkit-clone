@@ -85,7 +85,7 @@ class HomeCustomSliverAppBar extends StatelessWidget {
                       size: 22.sp,
                     ),
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: Theme.of(context).cardColor,
                     contentPadding: EdgeInsets.symmetric(
                       vertical: 10.h,
                       horizontal: 15.w,
@@ -154,14 +154,14 @@ class HomeCustomSliverAppBar extends StatelessWidget {
                       Text(
                         'Blinkit in',
                         style: AppFonts.caption.copyWith(
-                          color: Colors.white70,
+                          color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.7),
                           fontSize: 12.sp,
                         ),
                       ),
                       Text(
                         '10 minutes',
                         style: AppFonts.heading3.copyWith(
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onPrimary,
                           fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
                         ),
@@ -181,7 +181,7 @@ class HomeCustomSliverAppBar extends StatelessWidget {
                                   child: Text(
                                     mapController.currentAddress.value,
                                     style: AppFonts.bodySmall.copyWith(
-                                      color: Colors.white,
+                                      color: Theme.of(context).colorScheme.onPrimary,
                                       fontSize: 13.sp,
                                     ),
                                     overflow: TextOverflow.ellipsis,
@@ -190,7 +190,7 @@ class HomeCustomSliverAppBar extends StatelessWidget {
                                 ),
                                 Icon(
                                   Icons.arrow_drop_down,
-                                  color: Colors.white,
+                                  color: Theme.of(context).colorScheme.onPrimary,
                                   size: 20.sp,
                                 ),
                               ],

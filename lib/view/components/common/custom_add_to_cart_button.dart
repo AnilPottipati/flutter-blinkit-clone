@@ -28,7 +28,7 @@ class CustomAddToCartButton extends StatelessWidget {
               '${product.name} added to your cart.',
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: AppColors.success.withAlpha(230),
-              colorText: Colors.white,
+              colorText: Theme.of(context).colorScheme.onPrimary,
               margin: EdgeInsets.all(12.w),
               borderRadius: 8.r,
               duration: const Duration(seconds: 2),
@@ -38,7 +38,7 @@ class CustomAddToCartButton extends StatelessWidget {
             backgroundColor: AppColors.primary,
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             textStyle: AppFonts.bodySmall.copyWith(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onPrimary,
               fontWeight: FontWeight.bold,
             ),
             shape: RoundedRectangleBorder(
@@ -48,7 +48,7 @@ class CustomAddToCartButton extends StatelessWidget {
           child: Text(
             'Add',
             style: AppFonts.bodySmall.copyWith(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onPrimary,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -70,7 +70,7 @@ class CustomAddToCartButton extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
             ),
-            child: Text('Add', style: AppFonts.bodySmall.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text('Add', style: AppFonts.bodySmall.copyWith(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.bold)),
           );
         }
 

@@ -9,7 +9,9 @@ class CartController extends GetxController {
   // Rx observables for cart summary
   final RxDouble subtotalPrice = 0.0.obs;
   final RxDouble deliveryFee = 2.0.obs; // Example: Fixed delivery fee
-  final RxDouble totalPrice = 0.0.obs;
+  final RxDouble gst = 0.0.obs;
+  final RxDouble sgst = 0.0.obs;
+  final RxDouble grandTotal = 0.0.obs;
 
   // Add a product to the cart
   void addItem(Product product) {
@@ -82,7 +84,12 @@ class CartController extends GetxController {
       currentSubtotal += item.totalPrice;
     }
     subtotalPrice.value = currentSubtotal;
-    totalPrice.value = subtotalPrice.value + deliveryFee.value;
+
+    // Calculate taxes (e.g., 5% GST and 5% SGST)
+    gst.value = subtotalPrice.value * 0.05;
+    sgst.value = subtotalPrice.value * 0.05;
+
+    grandTotal.value = subtotalPrice.value + deliveryFee.value + gst.value + sgst.value;
     // update(); // Not strictly necessary as Obx widgets listen to Rx variables
   }
 

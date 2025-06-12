@@ -155,7 +155,7 @@ class ProductCardWidget extends StatelessWidget {
         if (product.mrp.isNotEmpty)
           Flexible(
             child: Text(
-              'MRP ${product.mrp}',
+              'MRP ₹${product.mrp}',
               overflow: TextOverflow.ellipsis,
               style: AppFonts.body2.copyWith(
                 decoration: TextDecoration.lineThrough,

@@ -21,9 +21,9 @@ class FloatingCartButton extends StatelessWidget {
               Navigator.pushNamed(context, CartScreen.routeName);
             },
             backgroundColor: AppColors.primary,
-            child: const Icon(
+            child: Icon(
               Icons.shopping_cart_outlined,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onPrimary,
             ),
           ),
           if (cartCount > 0)
@@ -35,7 +35,7 @@ class FloatingCartButton extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.redAccent,
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 2),
+                  border: Border.all(color: Theme.of(context).colorScheme.onPrimary, width: 2),
                 ),
                 constraints: BoxConstraints(
                   minWidth: 20.w,
@@ -45,7 +45,7 @@ class FloatingCartButton extends StatelessWidget {
                   child: Text(
                     cartCount > 99 ? '99+' : '$cartCount',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.onPrimary,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.bold,
                     ),

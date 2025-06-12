@@ -26,7 +26,7 @@ class GridCategoryItemWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.r),
           side: BorderSide(color: AppColors.border.withAlpha((255 * 0.5).round()), width: 0.5),
         ),
-        color: AppColors.cardBackground, // Or Colors.white
+        color: Theme.of(context).cardColor,
         child: Padding(
           padding: EdgeInsets.all(8.w),
           child: Column(

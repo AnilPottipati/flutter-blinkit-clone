@@ -3,6 +3,8 @@ import 'package:blinkit_clone/core/colors.dart';
 import 'package:blinkit_clone/core/fonts.dart';
 import 'package:blinkit_clone/data/static_data/app_category_groups.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
 import 'package:get/get.dart';
 import 'dart:async';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,10 +33,28 @@ class _HomeScreenState extends State<HomeScreen> {
   Timer? _categoryLoaderTimer;
   bool _hasStartedCategoryLoader = false;
 
+  // New state for brand logos
+  List<String> _brandLogos = [];
+
   @override
   void initState() {
     super.initState();
+    _loadBrandLogos();
     // Do not auto-start loader. User must trigger it.
+  }
+
+  Future<void> _loadBrandLogos() async {
+    try {
+      final String jsonString = await rootBundle.loadString('assets/mock_data/brand_logos.json');
+      final List<dynamic> jsonList = json.decode(jsonString) as List<dynamic>;
+      if (mounted) {
+        setState(() {
+          _brandLogos = jsonList.map((item) => item.toString()).toList();
+        });
+      }
+    } catch (e) {
+      // print('Error loading brand logos: $e');
+    }
   }
 
   void _startCategoryLoader() {
@@ -84,14 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final List visibleCategories =
         allCategories.take(categoriesToDisplay).toList();
 
-    // Placeholder for brand logos - replace with your actual asset paths
-    final List<String> brandLogos = [
-      'https://placehold.co/80x32.png?text=Brand+1',
-      'https://placehold.co/80x32.png?text=Brand+2',
-      'https://placehold.co/80x32.png?text=Brand+3',
-      'https://placehold.co/80x32.png?text=Brand+4',
-      'https://placehold.co/80x32.png?text=Brand+5',
-    ];
+
 
     return Scaffold(
       body: RefreshIndicator(
@@ -199,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 // 1. Powered By Brands Row
                 SliverToBoxAdapter(
-                  child: PoweredByBrandsWidget(brandLogos: brandLogos),
+                  child: PoweredByBrandsWidget(brandLogos: _brandLogos),
                 ),
 
                 // Optional: Add some spacing

@@ -58,7 +58,7 @@ class _HorizontalProductListWidgetState extends State<HorizontalProductListWidge
               return Container(
                 width: 160.w,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(12.r),
                   boxShadow: [
                     BoxShadow(

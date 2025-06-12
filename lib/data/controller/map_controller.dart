@@ -398,12 +398,35 @@ class MapController extends GetxController {
     polylines.clear();
     polyPoints.clear();
     currentPolylineIndex.value = 0;
-    liveRemainingDistanceInMeters.value = 0;
-    estimatedArrivalTimeString.value = '';
+  }
+
+  // Reset the entire controller state for logout
+  void resetController() {
     animationTimer?.cancel();
-    positionStream?.resume();
-    // The source and bike markers should remain, but destination and route are cleared.
-    updateMarkers();
+    positionStream?.cancel();
+
+    polylines.clear();
+    markers.clear();
+    polyPoints.clear();
+
+    sourceLocation.value = null;
+    destinationLocation.value = null;
+    liveUserPosition.value = null;
+    isRouteLoaded.value = false;
+    currentPolylineIndex.value = 0;
+
+    totalDistanceInMeters.value = 0.0;
+    liveRemainingDistanceInMeters.value = 0.0;
+    estimatedArrivalTimeString.value = '';
+
+    isUsingCurrentLocation.value = true;
+    selectedSourceName.value = 'Current Location';
+    currentAddress.value = 'Getting address...';
+
+    // Re-initialize location for the next session
+    initCurrentLocation();
+
+    update();
   }
 
   @override

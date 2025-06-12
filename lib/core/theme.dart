@@ -1,30 +1,51 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
+import 'package:blinkit_clone/core/colors.dart';
+import 'package:blinkit_clone/core/fonts.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
-      primaryColor: Color(int.parse(AppConstants.primaryColor.replaceFirst('#', '0xff'))),
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Color(int.parse(AppConstants.primaryColor.replaceFirst('#', '0xff'))),
+      brightness: Brightness.light,
+      primaryColor: AppColors.primary,
+      scaffoldBackgroundColor: AppColors.scaffoldBackground,
+      colorScheme: const ColorScheme.light(
+        primary: AppColors.primary,
+        secondary: AppColors.secondary,
+        background: AppColors.background,
+        surface: AppColors.cardBackground,
+        error: AppColors.error,
+        onPrimary: Colors.white,
+        onSecondary: Colors.black,
+        onBackground: AppColors.textPrimary,
+        onSurface: AppColors.textPrimary,
+        onError: Colors.white,
       ),
-      appBarTheme: const AppBarTheme(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+      appBarTheme: AppBarTheme(
+        elevation: 0.5,
+        backgroundColor: AppColors.background,
+        foregroundColor: AppColors.textDark,
+        titleTextStyle: AppFonts.title2.copyWith(color: AppColors.textDark, fontSize: 18),
       ),
-      textTheme: const TextTheme(
-        bodyLarge: TextStyle(fontSize: 16),
-        bodyMedium: TextStyle(fontSize: 14),
-        bodySmall: TextStyle(fontSize: 12),
+      textTheme: TextTheme(
+        bodyLarge: AppFonts.bodyLarge,
+        bodyMedium: AppFonts.bodyMedium,
+        bodySmall: AppFonts.bodySmall,
+        titleLarge: AppFonts.heading1,
+        titleMedium: AppFonts.heading2,
+        titleSmall: AppFonts.heading3,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(int.parse(AppConstants.primaryColor.replaceFirst('#', '0xff'))),
+          backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
+          textStyle: AppFonts.bodyLarge.copyWith(fontWeight: FontWeight.bold),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         ),
       ),
     );
   }
+
 }

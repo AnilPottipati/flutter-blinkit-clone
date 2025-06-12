@@ -138,7 +138,7 @@ class _LocationSelectionSheetState extends State<LocationSelectionSheet> {
                           color: AppColors.textHint,
                         ),
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: Theme.of(context).cardColor,
                         contentPadding: EdgeInsets.zero,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.r),
@@ -153,7 +153,7 @@ class _LocationSelectionSheetState extends State<LocationSelectionSheet> {
                     SizedBox(height: 16.h),
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Column(
@@ -330,7 +330,7 @@ class _LocationSelectionSheetState extends State<LocationSelectionSheet> {
       child: Container(
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(12.r),
         ),
         child: Row(

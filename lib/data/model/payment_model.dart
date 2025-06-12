@@ -6,6 +6,7 @@ class PaymentModel {
   String prefillEmail;
   String prefillContact;
   String? orderId; // Optional
+  String currency;
 
   PaymentModel({
     required this.keyId,
@@ -15,6 +16,7 @@ class PaymentModel {
     required this.prefillEmail,
     required this.prefillContact,
     this.orderId,
+    this.currency = 'INR', // Default to INR
   });
 
   Map<String, dynamic> toJson() {
@@ -22,6 +24,7 @@ class PaymentModel {
     data['key'] = keyId;
     // Razorpay expects amount in the smallest currency unit (e.g., paisa for INR)
     data['amount'] = (double.parse(amount) * 100).round();
+    data['currency'] = currency;
     data['name'] = name;
     data['description'] = description;
     data['prefill'] = {

@@ -1,0 +1,207 @@
+[
+  {
+    "title": "Grocery & Kitchen",
+    "categories": [
+      {
+        "name": "Vegetables & Fruits",
+        "imageUrl": "https://via.placeholder.com/150/92C952",
+        "subcategories": []
+      },
+      {
+        "name": "Atta, Rice & Dal",
+        "imageUrl": "https://via.placeholder.com/150/771796",
+        "subcategories": []
+      },
+      {
+        "name": "Oil, Ghee & Masala",
+        "imageUrl": "https://via.placeholder.com/150/24A7DB",
+        "subcategories": []
+      },
+      {
+        "name": "Dairy, Bread & Eggs",
+        "imageUrl": "https://via.placeholder.com/150/5018B3",
+        "subcategories": []
+      },
+      {
+        "name": "Bakery & Biscuits",
+        "imageUrl": "https://via.placeholder.com/150/F9A825",
+        "subcategories": []
+      },
+      {
+        "name": "Dry Fruits & Cereals",
+        "imageUrl": "https://via.placeholder.com/150/D81B60",
+        "subcategories": []
+      },
+      {
+        "name": "Chicken, Meat & Fish",
+        "imageUrl": "https://via.placeholder.com/150/00ACC1",
+        "subcategories": []
+      },
+      {
+        "name": "Kitchenware & Appliances",
+        "imageUrl": "https://via.placeholder.com/150/E53935",
+        "subcategories": []
+      }
+    ]
+  },
+  {
+    "title": "Snacks & Drinks",
+    "categories": [
+      {
+        "name": "Chips & Namkeen",
+        "imageUrl": "https://via.placeholder.com/150/3949AB",
+        "subcategories": []
+      },
+      {
+        "name": "Sweets & Chocolates",
+        "imageUrl": "https://via.placeholder.com/150/8E24AA",
+        "subcategories": []
+      },
+      {
+        "name": "Drinks & Juices",
+        "imageUrl": "https://via.placeholder.com/150/039BE5",
+        "subcategories": []
+      },
+      {
+        "name": "Tea, Coffee & Milk Drinks",
+        "imageUrl": "https://via.placeholder.com/150/C0CA33",
+        "subcategories": []
+      },
+      {
+        "name": "Instant Food",
+        "imageUrl": "https://via.placeholder.com/150/FB8C00",
+        "subcategories": []
+      },
+      {
+        "name": "Sauces & Spreads",
+        "imageUrl": "https://via.placeholder.com/150/43A047",
+        "subcategories": []
+      },
+      {
+        "name": "Paan Corner",
+        "imageUrl": "https://via.placeholder.com/150/6D4C41",
+        "subcategories": []
+      },
+      {
+        "name": "Ice Creams & More",
+        "imageUrl": "https://via.placeholder.com/150/F06292",
+        "subcategories": []
+      }
+    ]
+  },
+  {
+    "title": "Beauty & Personal Care",
+    "categories": [
+      {
+        "name": "Bath & Body",
+        "imageUrl": "https://via.placeholder.com/150/FFB6C1",
+        "subcategories": []
+      },
+      {
+        "name": "Hair",
+        "imageUrl": "https://via.placeholder.com/150/FFD700",
+        "subcategories": []
+      },
+      {
+        "name": "Skin & Face",
+        "imageUrl": "https://via.placeholder.com/150/98FB98",
+        "subcategories": []
+      },
+      {
+        "name": "Beauty & Cosmetics",
+        "imageUrl": "https://via.placeholder.com/150/87CEFA",
+        "subcategories": []
+      },
+      {
+        "name": "Feminine Hygiene",
+        "imageUrl": "https://via.placeholder.com/150/FF69B4",
+        "subcategories": []
+      },
+      {
+        "name": "Baby Care",
+        "imageUrl": "https://via.placeholder.com/150/ADD8E6",
+        "subcategories": []
+      },
+      {
+        "name": "Health & Pharma",
+        "imageUrl": "https://via.placeholder.com/150/90EE90",
+        "subcategories": []
+      },
+      {
+        "name": "Sexual Wellness",
+        "imageUrl": "https://via.placeholder.com/150/BA55D3",
+        "subcategories": []
+      }
+    ]
+  },
+  {
+    "title": "Household Essentials",
+    "categories": [
+      {
+        "name": "Home & Lifestyle",
+        "imageUrl": "https://via.placeholder.com/150/FFE4B5",
+        "subcategories": []
+      },
+      {
+        "name": "Cleaners & Repellents",
+        "imageUrl": "https://via.placeholder.com/150/40E0D0",
+        "subcategories": []
+      },
+      {
+        "name": "Electronics",
+        "imageUrl": "https://via.placeholder.com/150/4682B4",
+        "subcategories": []
+      },
+      {
+        "name": "Stationery & Games",
+        "imageUrl": "https://via.placeholder.com/150/FFDEAD",
+        "subcategories": []
+      }
+    ]
+  },
+  {
+    "title": "Shop by store",
+    "categories": [
+      {
+        "name": "Pooja Store",
+        "imageUrl": "https://via.placeholder.com/150/FFB347",
+        "subcategories": []
+      },
+      {
+        "name": "Pharma Store",
+        "imageUrl": "https://via.placeholder.com/150/87CEEB",
+        "subcategories": []
+      },
+      {
+        "name": "Pet Store",
+        "imageUrl": "https://via.placeholder.com/150/F4A460",
+        "subcategories": []
+      },
+      {
+        "name": "Sports Store",
+        "imageUrl": "https://via.placeholder.com/150/FFFF99",
+        "subcategories": []
+      },
+      {
+        "name": "Fashion Basics Store",
+        "imageUrl": "https://via.placeholder.com/150/000000",
+        "subcategories": []
+      },
+      {
+        "name": "Stationery Store",
+        "imageUrl": "https://via.placeholder.com/150/FFDAB9",
+        "subcategories": []
+      },
+      {
+        "name": "Book Store",
+        "imageUrl": "https://via.placeholder.com/150/6495ED",
+        "subcategories": []
+      },
+      {
+        "name": "Toy Store",
+        "imageUrl": "https://via.placeholder.com/150/FF7F50",
+        "subcategories": []
+      }
+    ]
+  }
+]
