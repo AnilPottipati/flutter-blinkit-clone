@@ -8,6 +8,8 @@ import '../../core/fonts.dart';
 import '../../data/controller/cart_controller.dart';
 import '../../data/model/cart_item_model.dart';
 import '../../services/razorpay_service.dart'; // Now imports PaymentController
+import '../../data/controller/delivery_address_controller.dart';
+import '../components/location/location_selection_sheet.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -22,6 +24,7 @@ class _CartScreenState extends State<CartScreen> {
   final CartController _cartController = Get.find<CartController>();
   // Use PaymentController from GetX
   final PaymentController _paymentController = Get.put(PaymentController());
+  final DeliveryAddressController _addressController = Get.put(DeliveryAddressController(), permanent: true);
 
   @override
   void initState() {
@@ -37,6 +40,18 @@ class _CartScreenState extends State<CartScreen> {
       debugPrint('[CartScreen] Cart is empty, showing snackbar.');
       Get.snackbar('Empty Cart', 'Please add items to your cart before checking out.',
           snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+
+    if (!_addressController.isAddressSelected) {
+      Get.snackbar('Select Address', 'Please choose a delivery address before checkout.', snackPosition: SnackPosition.BOTTOM);
+      // open selection sheet
+      showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        builder: (_) => const LocationSelectionSheet(),
+      );
       return;
     }
 
@@ -305,6 +320,69 @@ class _CartScreenState extends State<CartScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // Address display section
+          Obx(() {
+            if (_addressController.isAddressSelected) {
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.location_on_outlined, color: AppColors.textDark, size: 20.sp),
+                  SizedBox(width: 8.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Deliver to", style: AppFonts.caption.copyWith(color: AppColors.textHint)),
+                        Text(
+                          _addressController.selectedAddress.value,
+                          style: AppFonts.bodyMedium,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Get.bottomSheet(
+                        const LocationSelectionSheet(),
+                        isScrollControlled: true,
+                      );
+                    },
+                    child: Text(
+                      'Change',
+                      style: AppFonts.bodyMedium.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              return InkWell(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    isScrollControlled: true,
+                    builder: (_) => const LocationSelectionSheet(),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 8.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Select a delivery address',
+                        style: AppFonts.bodyLarge.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      Icon(Icons.arrow_forward_ios, size: 16.sp, color: AppColors.textHint),
+                    ],
+                  ),
+                ),
+              );
+            }
+          }),
+          SizedBox(height: 8.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

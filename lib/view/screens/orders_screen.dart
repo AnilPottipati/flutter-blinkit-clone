@@ -10,6 +10,7 @@ import '../../data/model/order_item_model.dart';
 import '../../data/model/order_model.dart';
 import '../../data/model/product_model.dart';
 import '../components/common/custom_add_to_cart_button.dart';
+import '../components/common/shimmer_box.dart';
 
 class OrdersScreen extends StatelessWidget {
   static const String routeName = '/orders';
@@ -88,25 +89,83 @@ class OrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final RxBool isLoading = true.obs;
     final pastOrders = _dummyPastOrders;
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: Text(
-          'My Past Orders',
-          style: AppFonts.title2.copyWith(color: AppColors.textDark),
+    // Simulate loading for shimmer effect
+    Future.delayed(const Duration(seconds: 1), () => isLoading.value = false);
+
+    return Obx(() {
+      if (isLoading.value) {
+        // Show shimmer placeholders while loading
+        return Scaffold(
+          backgroundColor: AppColors.background,
+          appBar: AppBar(
+            title: ShimmerBox(width: 120.w, height: 28.h, borderRadius: BorderRadius.circular(6)),
+            backgroundColor: AppColors.scaffoldBackground,
+            elevation: 1,
+            iconTheme: IconThemeData(color: AppColors.textDark),
+          ),
+          body: ListView.builder(
+            padding: EdgeInsets.all(12.w),
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              return Card(
+                margin: EdgeInsets.only(bottom: 16.h),
+                elevation: 2,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+                child: Padding(
+                  padding: EdgeInsets.all(12.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ShimmerBox(width: 120.w, height: 18.h, borderRadius: BorderRadius.circular(6)),
+                          ShimmerBox(width: 80.w, height: 16.h, borderRadius: BorderRadius.circular(6)),
+                        ],
+                      ),
+                      SizedBox(height: 10.h),
+                      ShimmerBox(width: double.infinity, height: 18.h, borderRadius: BorderRadius.circular(6)),
+                      SizedBox(height: 10.h),
+                      Row(
+                        children: [
+                          ShimmerBox(width: 60.w, height: 16.h, borderRadius: BorderRadius.circular(6)),
+                          SizedBox(width: 10.w),
+                          ShimmerBox(width: 60.w, height: 16.h, borderRadius: BorderRadius.circular(6)),
+                        ],
+                      ),
+                      SizedBox(height: 10.h),
+                      Row(
+                        children: List.generate(3, (i) => Padding(
+                          padding: EdgeInsets.only(right: 8.w),
+                          child: ShimmerBox(width: 48.w, height: 48.w, borderRadius: BorderRadius.circular(8)),
+                        )),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      }
+
+      return Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          title: Text(
+            'My Past Orders',
+            style: AppFonts.title2.copyWith(color: AppColors.textDark),
+          ),
+          backgroundColor: AppColors.scaffoldBackground,
+          elevation: 1,
+          iconTheme: IconThemeData(color: AppColors.textDark),
         ),
-        backgroundColor: AppColors.scaffoldBackground,
-        elevation: 1,
-        iconTheme: IconThemeData(color: AppColors.textDark),
-      ),
-      body:
-          pastOrders.isEmpty
-              ? _buildEmptyOrdersView(
-                context,
-              ) // Use the ReorderPromptWidget or a similar view
-              : ListView.builder(
+        body: pastOrders.isEmpty
+            ? _buildEmptyOrdersView(context)
+            : ListView.builder(
                 padding: EdgeInsets.all(12.w),
                 itemCount: pastOrders.length,
                 itemBuilder: (context, index) {
@@ -114,7 +173,8 @@ class OrdersScreen extends StatelessWidget {
                   return _buildOrderCard(context, order);
                 },
               ),
-    );
+      );
+    });
   }
 
   Widget _buildEmptyOrdersView(BuildContext context) {

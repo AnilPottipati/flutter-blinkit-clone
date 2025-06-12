@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart'; // For date formatting
+import '../components/common/shimmer_box.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../core/colors.dart';
@@ -20,11 +21,24 @@ class MyOrdersScreen extends StatelessWidget {
     final Order? order = Get.arguments as Order?;
 
     if (order == null) {
-      // Handle case where order is not passed, though ideally this shouldn't happen
+      // Show shimmer placeholders while loading
       return Scaffold(
-        appBar: AppBar(title: Text('Error', style: AppFonts.title2)),
-        body: Center(
-          child: Text('No order details found.', style: AppFonts.bodyLarge),
+        appBar: AppBar(title: Text('Order Details', style: AppFonts.title2)),
+        body: Padding(
+          padding: EdgeInsets.all(16.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ShimmerBox(width: double.infinity, height: 80.h, borderRadius: BorderRadius.circular(12)),
+              SizedBox(height: 20.h),
+              ShimmerBox(width: 120.w, height: 24.h, borderRadius: BorderRadius.circular(8)),
+              SizedBox(height: 10.h),
+              ...List.generate(3, (i) => Padding(
+                padding: EdgeInsets.only(bottom: 12.h),
+                child: ShimmerBox(width: double.infinity, height: 60.h, borderRadius: BorderRadius.circular(10)),
+              )),
+            ],
+          ),
         ),
       );
     }

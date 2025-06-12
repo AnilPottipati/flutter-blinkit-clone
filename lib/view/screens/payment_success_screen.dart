@@ -7,7 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:get/get.dart';
 import 'package:blinkit_clone/routes/route.dart';
 import 'package:blinkit_clone/data/model/order_model.dart';
-import 'my_orders_screen.dart'; // Import MyOrdersScreen to use its routeName
+import 'package:blinkit_clone/data/controller/delivery_address_controller.dart';
 
 class PaymentSuccessScreen extends StatefulWidget {
   static const String routeName = '/payment-success';
@@ -27,15 +27,13 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
     // However, Get.arguments can be accessed directly too. For simplicity here:
     _order = Get.arguments as Order?;
     Timer(const Duration(seconds: 3), () {
-      if (mounted) {
-        // Navigate to MyOrdersScreen with the order details
-        if (_order != null) {
-          Get.offNamed(MyOrdersScreen.routeName, arguments: _order);
-        } else {
-          // Fallback if order is somehow null, though it shouldn't be
-          Get.offAllNamed(Routes.home);
-        }
-      }
+      if (!mounted) return;
+      // Navigate to MapScreen for destination selection & live tracking
+      final addrCtrl = Get.find<DeliveryAddressController>();
+      Get.offNamed(Routes.map, arguments: {
+        'order': _order,
+        'destination': addrCtrl.selectedLatLng.value,
+      });
     });
   }
 

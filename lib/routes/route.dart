@@ -10,6 +10,7 @@ import '../view/screens/payment_success_screen.dart';
 import '../view/screens/my_orders_screen.dart';
 import '../view/screens/auth/PermissionGate.dart';
 import '../view/screens/maps/search_screen.dart';
+import '../view/screens/maps/address_picker_screen.dart'; // Corrected path
 
 class Routes {
   static const String initial =
@@ -30,7 +31,7 @@ class Routes {
   static const String permissionGate = '/permission-gate';
   static const String map = '/map';
   static const String search = '/search';
-  
+  static const String addressPicker = '/address-picker'; // Added route constant
 
   static final List<GetPage> pages = [
     
@@ -57,14 +58,9 @@ class Routes {
     GetPage(name: cart, page: () => const CartScreen()),
     // Add more routes as needed
     GetPage(name: paymentSuccess, page: () => const PaymentSuccessScreen()),
-    GetPage(
-      name: map,
-      page: () => const MapScreen(),
-    ),
-    GetPage(
-      name: search,
-      page: () => const SearchScreen(),
-    ),
+    GetPage(name: map, page: () => const MapScreen()),
     GetPage(name: myOrderDetails, page: () => const MyOrdersScreen()),
+    // New page for picking address
+    GetPage(name: addressPicker, page: () => const AddressPickerScreen()),
   ];
 }

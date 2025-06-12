@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:blinkit_clone/core/colors.dart';
 import 'package:blinkit_clone/core/fonts.dart';
+import '../components/common/shimmer_box.dart';
 import 'package:blinkit_clone/data/controller/profile_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -12,52 +13,80 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final ProfileController controller = Get.put(ProfileController());
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back, color: AppColors.textDark),
-        //   onPressed: () => Navigator.of(context).pop(),
-        // ),
-        title: Text('Profile', style: AppFonts.heading2.copyWith(color: AppColors.textDark)),
-        backgroundColor: AppColors.background,
-      ),
-      body: ListView(
-        padding: EdgeInsets.symmetric(vertical: 10.h),
-        children: [
-          _buildUserInfoSection(controller),
-          SizedBox(height: 20.h),
-          _buildQuickActionsSection(controller),
-          SizedBox(height: 20.h),
-          // _buildAppearanceSection(),
-          SizedBox(height: 15.h),
-          _buildSectionHeader('YOUR INFORMATION'),
-          _buildProfileListItem(controller, Icons.receipt_long_outlined, 'Your orders', () => controller.navigateToYourOrders()),
-          _buildProfileListItem(controller, Icons.bookmark_border_outlined, 'Bookmarked recipes', () => controller.navigateToBookmarkedRecipes()),
-          _buildProfileListItem(controller, Icons.menu_book_outlined, 'Address book', () => controller.navigateToAddressBook()),
-          _buildProfileListItem(controller, Icons.description_outlined, 'GST details', () => controller.navigateToGstDetails()),
-          _buildProfileListItem(controller, Icons.card_giftcard_outlined, 'E-Gift Cards', () => controller.navigateToEGiftCards()),
-          SizedBox(height: 15.h),
-          _buildSectionHeader('PAYMENTS AND COUPONS'),
-          _buildProfileListItem(controller, Icons.account_balance_wallet_outlined, 'Wallet', () => controller.navigateToWallet()),
-          _buildProfileListItem(controller, Icons.credit_card_outlined, 'Blinkit Money', () => controller.navigateToBlinkitMoney()),
-          _buildProfileListItem(controller, Icons.settings_outlined, 'Payment settings', () => controller.navigateToPaymentSettings()),
-          _buildProfileListItem(controller, Icons.military_tech_outlined, 'Your collected rewards', () => controller.navigateToCollectedRewards()),
-          SizedBox(height: 15.h),
-          _buildSectionHeader('OTHER INFORMATION'),
-          _buildProfileListItem(controller, Icons.share_outlined, 'Share the app', () => controller.shareApp()),
-          _buildProfileListItem(controller, Icons.info_outline, 'About us', () => controller.navigateToAboutUs()),
-          _buildProfileListItem(controller, Icons.food_bank_outlined, 'Get Feeding India receipt', () => controller.getFeedingIndiaReceipt()),
-          _buildProfileListItem(controller, Icons.privacy_tip_outlined, 'Account privacy', () => controller.navigateToAccountPrivacy()),
-          _buildProfileListItem(controller, Icons.notifications_outlined, 'Notification preferences', () => controller.navigateToNotificationPreferences()),
-          _buildProfileListItem(controller, Icons.logout_outlined, 'Log out', () => controller.logout(), showTrailingIcon: false, color: AppColors.error),
-          SizedBox(height: 30.h),
-          _buildFooter(controller),
-          SizedBox(height: 20.h),
-        ],
-      ),
-    );
+    final RxBool isLoading = false.obs;
+    // Simulate loading for shimmer effect
+    Future.delayed(const Duration(seconds: 1), () => isLoading.value = false);
+    return Obx(() {
+      if (isLoading.value) {
+        // Show shimmer placeholders while loading
+        return Scaffold(
+          backgroundColor: AppColors.background,
+          appBar: AppBar(
+            scrolledUnderElevation: 0,
+            title: ShimmerBox(width: 120.w, height: 28.h, borderRadius: BorderRadius.circular(6)),
+            backgroundColor: AppColors.background,
+          ),
+          body: ListView(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            children: [
+              ShimmerBox(width: double.infinity, height: 80.h, borderRadius: BorderRadius.circular(12), margin: EdgeInsets.symmetric(horizontal: 16.w)),
+              SizedBox(height: 20.h),
+              ...List.generate(6, (i) => Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                child: ShimmerBox(width: double.infinity, height: 40.h, borderRadius: BorderRadius.circular(8)),
+              )),
+            ],
+          ),
+        );
+      } else {
+        return Scaffold(
+          backgroundColor: AppColors.background,
+          appBar: AppBar(
+            scrolledUnderElevation: 0,
+            // leading: IconButton(
+            //   icon: const Icon(Icons.arrow_back, color: AppColors.textDark),
+            //   onPressed: () => Navigator.of(context).pop(),
+            // ),
+            title: Text('Profile', style: AppFonts.heading2.copyWith(color: AppColors.textDark)),
+            backgroundColor: AppColors.background,
+          ),
+          body: ListView(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            children: [
+              _buildUserInfoSection(controller),
+              SizedBox(height: 20.h),
+              _buildQuickActionsSection(controller),
+              SizedBox(height: 20.h),
+              // _buildAppearanceSection(),
+              SizedBox(height: 15.h),
+              _buildSectionHeader('YOUR INFORMATION'),
+              _buildProfileListItem(controller, Icons.receipt_long_outlined, 'Your orders', () => controller.navigateToYourOrders()),
+              _buildProfileListItem(controller, Icons.bookmark_border_outlined, 'Bookmarked recipes', () => controller.navigateToBookmarkedRecipes()),
+              _buildProfileListItem(controller, Icons.menu_book_outlined, 'Address book', () => controller.navigateToAddressBook()),
+              _buildProfileListItem(controller, Icons.description_outlined, 'GST details', () => controller.navigateToGstDetails()),
+              _buildProfileListItem(controller, Icons.card_giftcard_outlined, 'E-Gift Cards', () => controller.navigateToEGiftCards()),
+              SizedBox(height: 15.h),
+              _buildSectionHeader('PAYMENTS AND COUPONS'),
+              _buildProfileListItem(controller, Icons.account_balance_wallet_outlined, 'Wallet', () => controller.navigateToWallet()),
+              _buildProfileListItem(controller, Icons.credit_card_outlined, 'Blinkit Money', () => controller.navigateToBlinkitMoney()),
+              _buildProfileListItem(controller, Icons.settings_outlined, 'Payment settings', () => controller.navigateToPaymentSettings()),
+              _buildProfileListItem(controller, Icons.military_tech_outlined, 'Your collected rewards', () => controller.navigateToCollectedRewards()),
+              SizedBox(height: 15.h),
+              _buildSectionHeader('OTHER INFORMATION'),
+              _buildProfileListItem(controller, Icons.share_outlined, 'Share the app', () => controller.shareApp()),
+              _buildProfileListItem(controller, Icons.info_outline, 'About us', () => controller.navigateToAboutUs()),
+              _buildProfileListItem(controller, Icons.food_bank_outlined, 'Get Feeding India receipt', () => controller.getFeedingIndiaReceipt()),
+              _buildProfileListItem(controller, Icons.privacy_tip_outlined, 'Account privacy', () => controller.navigateToAccountPrivacy()),
+              _buildProfileListItem(controller, Icons.notifications_outlined, 'Notification preferences', () => controller.navigateToNotificationPreferences()),
+              _buildProfileListItem(controller, Icons.logout_outlined, 'Log out', () => controller.logout(), showTrailingIcon: false, color: AppColors.error),
+              SizedBox(height: 30.h),
+              _buildFooter(controller),
+              SizedBox(height: 20.h),
+            ],
+          ),
+        );
+      }
+    });
   }
 
   Widget _buildUserInfoSection(ProfileController controller) {
@@ -186,4 +215,3 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
-

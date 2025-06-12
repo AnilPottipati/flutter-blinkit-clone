@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:blinkit_clone/core/colors.dart';
 import 'package:blinkit_clone/core/fonts.dart';
 import 'package:blinkit_clone/view/components/category_grid_item_widget.dart';
+import '../components/common/shimmer_box.dart';
 import 'package:blinkit_clone/view/components/home_custom_sliver_app_bar.dart';
 import 'package:blinkit_clone/data/static_data/app_category_groups.dart';
 
@@ -20,6 +21,35 @@ class CategoryScreen extends StatelessWidget {
     if (appCategoryGroups.isNotEmpty) {
       print(
         'First group title: ${appCategoryGroups.first.title}, categories: ${appCategoryGroups.first.categories.length}',
+      );
+    }
+    if (appCategoryGroups.isEmpty) {
+      // Show shimmer placeholders while loading
+      return Scaffold(
+        backgroundColor: AppColors.scaffoldBackground,
+        body: ListView(
+          children: [
+            SizedBox(height: 24.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: ShimmerBox(width: double.infinity, height: 32.h, borderRadius: BorderRadius.circular(8)),
+            ),
+            SizedBox(height: 16.h),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 16.h,
+                crossAxisSpacing: 12.w,
+                childAspectRatio: 0.8,
+              ),
+              itemCount: 9,
+              itemBuilder: (_, __) => ShimmerBox(width: double.infinity, height: 120.h, borderRadius: BorderRadius.circular(12)),
+            ),
+          ],
+        ),
       );
     }
     return Scaffold(

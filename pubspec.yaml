@@ -38,6 +38,7 @@ dependencies:
   # State Management
   get: ^4.6.6
   provider: ^6.1.1
+  shimmer: ^3.0.0
 
   # Networking
   dio: ^5.4.0
@@ -77,6 +78,7 @@ dependencies:
   geolocator: ^14.0.1
   flutter_google_maps_webservices: ^1.1.1
   uuid: ^4.4.0
+  google_places_flutter: ^2.1.0
 
 dev_dependencies:
   flutter_test:

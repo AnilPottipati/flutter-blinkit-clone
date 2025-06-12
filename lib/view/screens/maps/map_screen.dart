@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:blinkit_clone/data/controller/map_controller.dart';
+import 'package:blinkit_clone/data/model/order_model.dart';
+import 'package:blinkit_clone/routes/route.dart';
+import 'package:blinkit_clone/view/screens/my_orders_screen.dart';
 import '../../components/maps/source_selector_widget.dart';
 
 class MapScreen extends StatelessWidget {
@@ -10,6 +13,19 @@ class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MapController controller = Get.put(MapController());
+    Order? order;
+
+    // If an argument contains destination LatLng, set it immediately
+    if (Get.arguments != null && Get.arguments is Map) {
+      final arg = Get.arguments as Map;
+      if (arg.containsKey('destination') && arg['destination'] != null) {
+        controller.destinationLocation.value = arg['destination'] as LatLng;
+        controller.fetchPolylinePoints();
+      }
+      if (arg.containsKey('order')) {
+        order = arg['order'] as Order?;
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -91,7 +107,11 @@ class MapScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: ElevatedButton.icon(
-                        onPressed: controller.resetRoute,
+                        onPressed: () {
+                          controller.resetRoute();
+                          Get.offAllNamed(Routes.home);
+                          Get.snackbar('Order Cancelled', 'Your order has been successfully cancelled.');
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
                           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -104,7 +124,13 @@ class MapScreen extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          // Add navigation to order confirmation
+                          if (order != null) {
+                            Get.offNamed(MyOrdersScreen.routeName, arguments: order);
+                          } else {
+                            // Fallback if order is null
+                            Get.snackbar('Error', 'Could not retrieve order details.');
+                            Get.offAllNamed(Routes.home);
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,

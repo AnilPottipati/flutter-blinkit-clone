@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/colors.dart';
+import '../../../data/controller/cart_controller.dart';
 import '../../screens/cart_screen.dart';
 
 class FloatingCartButton extends StatelessWidget {
@@ -7,15 +10,52 @@ class FloatingCartButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {
-        Navigator.pushNamed(context, CartScreen.routeName);
-      },
-      backgroundColor: AppColors.primary,
-      child: const Icon(
-        Icons.shopping_cart_outlined,
-        color: Colors.white,
-      ),
-    );
+    final CartController cartController = Get.find<CartController>();
+    return Obx(() {
+      final int cartCount = cartController.totalCartQuantity;
+      return Stack(
+        clipBehavior: Clip.none,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.pushNamed(context, CartScreen.routeName);
+            },
+            backgroundColor: AppColors.primary,
+            child: const Icon(
+              Icons.shopping_cart_outlined,
+              color: Colors.white,
+            ),
+          ),
+          if (cartCount > 0)
+            Positioned(
+              right: -2.w,
+              top: -2.h,
+              child: Container(
+                padding: EdgeInsets.all(4.w),
+                decoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 2),
+                ),
+                constraints: BoxConstraints(
+                  minWidth: 20.w,
+                  minHeight: 20.w,
+                ),
+                child: Center(
+                  child: Text(
+                    cartCount > 99 ? '99+' : '$cartCount',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      );
+    });
   }
 }
+

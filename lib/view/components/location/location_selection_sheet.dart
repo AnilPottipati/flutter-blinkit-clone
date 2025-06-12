@@ -1,13 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geocoding/geocoding.dart' as geocoding;
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../routes/route.dart';
+import '../../../data/controller/delivery_address_controller.dart';
+import '../../../data/controller/saved_address_controller.dart';
+import '../../../data/model/address_model.dart';
 import '../../../core/colors.dart';
 import '../../../core/fonts.dart';
 
-class LocationSelectionSheet extends StatelessWidget {
+class LocationSelectionSheet extends StatefulWidget {
   const LocationSelectionSheet({super.key});
+
+  @override
+  State<LocationSelectionSheet> createState() => _LocationSelectionSheetState();
+}
+
+class _LocationSelectionSheetState extends State<LocationSelectionSheet> {
+  final SavedAddressController _savedAddressController = Get.put(
+    SavedAddressController(),
+  );
+  bool _isLoading = false;
+
+  Future<void> _useCurrentLocation() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      Position position = await _determinePosition();
+      final latLng = LatLng(position.latitude, position.longitude);
+      List<geocoding.Placemark> placemarks = await geocoding
+          .placemarkFromCoordinates(latLng.latitude, latLng.longitude);
+
+      if (placemarks.isNotEmpty) {
+        geocoding.Placemark place = placemarks.first;
+        final address = [
+          if (place.name != null && place.name!.isNotEmpty) place.name,
+          if (place.subLocality != null && place.subLocality!.isNotEmpty)
+            place.subLocality,
+          if (place.locality != null && place.locality!.isNotEmpty)
+            place.locality,
+        ].join(', ');
+
+        Get.find<DeliveryAddressController>().setAddress(latLng, address);
+        Get.back(); // Close the sheet
+      } else {
+        Get.snackbar('Error', 'Could not determine address from location.');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to get location: ${e.toString()}');
+    }
+
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+        'Location permissions are permanently denied, we cannot request permissions.',
+      );
+    }
+
+    return await Geolocator.getCurrentPosition();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,23 +105,23 @@ class LocationSelectionSheet extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Container(
+              Padding(
                 padding: EdgeInsets.all(16.w),
-                child: Stack(
-                  alignment: Alignment.center,
+                child: Row(
                   children: [
-                    Text(
-                      'Select delivery location',
-                      style: AppFonts.title2.copyWith(fontSize: 18.sp),
+                    IconButton(
+                      icon: Icon(Icons.close, color: AppColors.textDark),
+                      onPressed: () => Navigator.pop(context),
                     ),
-                    Positioned(
-                      left: -10,
-                      top: -10,
-                      child: IconButton(
-                        icon: Icon(Icons.close, color: AppColors.textDark),
-                        onPressed: () => Navigator.pop(context),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          'Select delivery location',
+                          style: AppFonts.title2.copyWith(fontSize: 18.sp),
+                        ),
                       ),
                     ),
+                    SizedBox(width: 48), // Spacer to balance the close button
                   ],
                 ),
               ),
@@ -83,9 +162,17 @@ class LocationSelectionSheet extends StatelessWidget {
                             icon: Icons.gps_fixed,
                             iconColor: AppColors.primary,
                             title: 'Use current location',
-                            subtitle:
-                                'Capital Park, Ayyappa Society, Madhapur...',
-                            onTap: () {},
+                            onTap: _isLoading ? () {} : _useCurrentLocation,
+                            trailingWidget:
+                                _isLoading
+                                    ? const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                    : null,
                           ),
                           Divider(
                             height: 1.h,
@@ -96,52 +183,50 @@ class LocationSelectionSheet extends StatelessWidget {
                             icon: Icons.add,
                             iconColor: AppColors.primary,
                             title: 'Add new address',
-                            onTap: () => Get.toNamed(Routes.map),
-                          ),
-                          Divider(
-                            height: 1.h,
-                            indent: 50.w,
-                            color: AppColors.lightGrey.withOpacity(0.5),
-                          ),
-                          _buildLocationOptionTile(
-                            icon: Icons.message, // Replaced whatsapp icon
-                            iconColor: Colors.green,
-                            title: 'Request address from someone else',
-                            onTap: () {},
-                          ),
-                          Divider(
-                            height: 1.h,
-                            indent: 50.w,
-                            color: AppColors.lightGrey.withOpacity(0.5),
-                          ),
-                          ListTile(
-                            leading: Container(
-                              width: 24.w,
-                              height: 24.w,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFE51A32),
-                                borderRadius: BorderRadius.circular(4.r),
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(
-                                'zomato',
-                                style: AppFonts.caption.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 6.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            title: Text(
-                              'Import your addresses from Zomato',
-                              style: AppFonts.bodyMedium,
-                            ),
-                            trailing: Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16.sp,
-                              color: AppColors.textHint,
-                            ),
-                            onTap: () {},
+                            onTap: () async {
+  final result = await Get.toNamed(Routes.addressPicker);
+  if (result != null && result is Map) {
+    final latlng = result['latlng'] as LatLng;
+    final address = result['address'] as String;
+
+    String? customName = await showDialog<String>(
+      context: context,
+      builder: (context) {
+        String tempName = '';
+        return AlertDialog(
+          title: const Text('Name this address'),
+          content: TextField(
+            autofocus: true,
+            decoration: const InputDecoration(hintText: 'e.g. Home, Work'),
+            onChanged: (val) => tempName = val,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(tempName.trim()),
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (customName != null) {
+      final fallbackTitle = customName.isNotEmpty ? customName : address.split(',').firstOrNull ?? 'Saved Address';
+      final newAddress = AddressModel(
+        title: fallbackTitle,
+        address: address,
+        latlng: latlng,
+      );
+      _savedAddressController.addAddress(newAddress);
+      Get.find<DeliveryAddressController>().setAddress(latlng, address);
+      Get.back();
+    }
+  }
+},
                           ),
                         ],
                       ),
@@ -154,52 +239,42 @@ class LocationSelectionSheet extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 16.h),
-                    _buildSavedAddressCard(
-                      icon: Icons.home_outlined,
-                      title: 'Home',
-                      distance: '20.37 km away',
-                      address:
-                          'Charan, Hno 2-20-97/92/2, Kaveri Nagar, Sai Nagar, Uppal, Hyderabad',
-                      phone: 'Phone number: 7989917291',
-                    ),
-                    SizedBox(height: 12.h),
-                    Container(
-                      padding: EdgeInsets.all(12.w),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFFBEA),
-                        borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(color: const Color(0xFFFFE082)),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.upload_outlined,
-                            color: AppColors.textDark,
-                          ),
-                          SizedBox(width: 12.w),
-                          Expanded(
-                            child: Text(
-                              'Now share your addresses with friends and family',
-                              style: AppFonts.bodySmall,
+                    Obx(() {
+                      if (_savedAddressController.savedAddresses.isEmpty) {
+                        return Container(
+                          padding: EdgeInsets.symmetric(vertical: 40.h),
+                          alignment: Alignment.center,
+                          child: Text(
+                            'You have no saved addresses.',
+                            style: AppFonts.bodyMedium.copyWith(
+                              color: AppColors.textHint,
                             ),
                           ),
-                          Icon(
-                            Icons.close,
-                            size: 18.sp,
-                            color: AppColors.textHint,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 12.h),
-                    _buildSavedAddressCard(
-                      icon: Icons.location_on_outlined,
-                      title: 'College',
-                      distance: '30.18 km away',
-                      address:
-                          'Anurag university, Anurag University, Venkatapur, Ghatkesar, Medchal Malkajgiri District, Hyderabad, Telangana',
-                      phone: null,
-                    ),
+                        );
+                      }
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount:
+                            _savedAddressController.savedAddresses.length,
+                        itemBuilder: (context, index) {
+                          final address =
+                              _savedAddressController.savedAddresses[index];
+                          return _buildSavedAddressCard(
+                            addressModel: address,
+                            onTap: () {
+                              Get.find<DeliveryAddressController>().setAddress(
+                                address.latlng,
+                                address.address,
+                              );
+                              Get.back();
+                            },
+                          );
+                        },
+                        separatorBuilder:
+                            (context, index) => SizedBox(height: 12.h),
+                      );
+                    }),
                     SizedBox(height: 20.h),
                   ],
                 ),
@@ -217,6 +292,7 @@ class LocationSelectionSheet extends StatelessWidget {
     required String title,
     String? subtitle,
     required VoidCallback onTap,
+    Widget? trailingWidget,
   }) {
     return ListTile(
       leading: Icon(icon, color: iconColor, size: 24.sp),
@@ -238,85 +314,79 @@ class LocationSelectionSheet extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               )
               : null,
-      trailing: Icon(
-        Icons.arrow_forward_ios,
-        size: 16.sp,
-        color: AppColors.textHint,
-      ),
+      trailing:
+          trailingWidget ??
+          Icon(Icons.arrow_forward_ios, size: 16.sp, color: AppColors.textHint),
       onTap: onTap,
     );
   }
 
   Widget _buildSavedAddressCard({
-    required IconData icon,
-    required String title,
-    required String distance,
-    required String address,
-    String? phone,
+    required AddressModel addressModel,
+    required VoidCallback onTap,
   }) {
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: AppColors.lightGrey.withOpacity(0.7)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: EdgeInsets.all(8.w),
-            decoration: BoxDecoration(
-              color: AppColors.lightGrey.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(8.r),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(16.w),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.r),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.location_on_outlined,
+              color: AppColors.textDark,
+              size: 24.sp,
             ),
-            child: Icon(icon, color: AppColors.textSecondary, size: 24.sp),
-          ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(title, style: AppFonts.body1Strong),
-                    SizedBox(width: 8.w),
-                    Text(
-                      distance,
-                      style: AppFonts.caption.copyWith(
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  address,
-                  style: AppFonts.bodySmall.copyWith(
-                    color: AppColors.textMedium,
-                  ),
-                ),
-                if (phone != null) ...[
-                  SizedBox(height: 4.h),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(addressModel.title, style: AppFonts.title3),
+                  SizedBox(height: 8.h),
                   Text(
-                    phone,
-                    style: AppFonts.bodySmall.copyWith(
-                      color: AppColors.textMedium,
-                    ),
+                    addressModel.address,
+                    style: AppFonts.bodySmall,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
-                SizedBox(height: 8.h),
-                Row(
-                  children: [
-                    Icon(Icons.more_horiz, color: AppColors.textHint),
-                    SizedBox(width: 16.w),
-                    Icon(Icons.upload_outlined, color: AppColors.textHint),
-                  ],
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+            SizedBox(width: 12.w),
+            IconButton(
+              icon: Icon(Icons.delete_outline, color: AppColors.error),
+              onPressed: () async {
+                final confirm = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Delete Address'),
+                    content: const Text('Are you sure you want to delete this address?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: const Text('Cancel'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
+                        child: const Text('Delete'),
+                      ),
+                    ],
+                  ),
+                );
+                if (confirm == true) {
+                  _savedAddressController.removeAddress(addressModel);
+                }
+              },
+              tooltip: 'Delete address',
+            ),
+          ],
+        ),
       ),
     );
   }
