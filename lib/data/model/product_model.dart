@@ -6,6 +6,10 @@ class Product {
   final String mrp;
   final String discount;
   final String tag;
+  final String? weight;
+  final String? deliveryTime;
+  final String? variantInfo; // e.g., "2 options"
+  final String? recipeLink; // e.g., "See 30 recipes"
 
   Product({
     required this.id,
@@ -15,6 +19,10 @@ class Product {
     required this.mrp,
     required this.discount,
     required this.tag,
+    this.weight,
+    this.deliveryTime,
+    this.variantInfo,
+    this.recipeLink,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -31,6 +39,10 @@ class Product {
       mrp: json['mrp'] as String,
       discount: json['discount'] as String,
       tag: json['tag'] as String,
+      weight: json['weight'] as String?,
+      deliveryTime: json['deliveryTime'] as String?,
+      variantInfo: json['variantInfo'] as String?,
+      recipeLink: json['recipeLink'] as String?,
     );
   }
 

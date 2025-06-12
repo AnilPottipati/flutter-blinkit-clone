@@ -11,6 +11,7 @@ import '../view/screens/my_orders_screen.dart';
 import '../view/screens/auth/PermissionGate.dart';
 import '../view/screens/maps/search_screen.dart';
 import '../view/screens/maps/address_picker_screen.dart'; // Corrected path
+import '../view/screens/category_products_screen.dart';
 
 class Routes {
   static const String initial =
@@ -62,5 +63,6 @@ class Routes {
     GetPage(name: myOrderDetails, page: () => const MyOrdersScreen()),
     // New page for picking address
     GetPage(name: addressPicker, page: () => const AddressPickerScreen()),
+    GetPage(name: CategoryProductsScreen.routeName, page: () => const CategoryProductsScreen()),
   ];
 }

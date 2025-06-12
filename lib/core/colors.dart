@@ -31,6 +31,7 @@ class AppColors {
   static const Color divider = Color(0xFFE0E0E0);
 
   // Special Colors
+  static const Color orange = Color(0xFFE57373); // For discounts
   static const Color shadow = Color(0x1A000000);
   static const Color disabled = Color(0xFFCCCCCC);
 

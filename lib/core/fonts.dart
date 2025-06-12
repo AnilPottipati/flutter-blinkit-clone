@@ -47,6 +47,12 @@ class AppFonts {
     color: AppColors.textPrimary,
   );
 
+  static TextStyle get body2 => GoogleFonts.roboto(
+    fontSize: 13.sp,
+    fontWeight: FontWeight.w400,
+    color: AppColors.textSecondary,
+  );
+
   // Added for CategoryCardWidget
   static TextStyle get body1Strong => GoogleFonts.roboto(
     fontSize: 16.sp,

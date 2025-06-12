@@ -4,6 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:blinkit_clone/core/colors.dart';
 import 'package:blinkit_clone/core/fonts.dart';
 import 'package:blinkit_clone/data/model/main_category.dart'; // Assuming MainCategory model exists
+import 'package:get/get.dart';
+
+import '../screens/category_products_screen.dart';
 
 class CategoryGridItemWidget extends StatelessWidget {
   final MainCategory category;
@@ -12,7 +15,10 @@ class CategoryGridItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+        return InkWell(
+      onTap: () => Get.toNamed(CategoryProductsScreen.routeName, arguments: category),
+      borderRadius: BorderRadius.circular(12.r),
+      child: Container(
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(12.r),
@@ -64,6 +70,6 @@ class CategoryGridItemWidget extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ),);
   }
 }
