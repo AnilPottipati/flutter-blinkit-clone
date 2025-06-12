@@ -1,0 +1,26 @@
+[
+  {
+    "id": "feat_1",
+    "tag": "Featured",
+    "title": "Nirjala Ekadashi",
+    "subtitle": null,
+    "imageUrl": "https://placehold.co/300x180/FF6347/FFFFFF.png?text=Nirjala+Ekadashi&font=roboto",
+    "logoUrl": null
+  },
+  {
+    "id": "feat_2",
+    "tag": "Featured",
+    "title": "NEWLY LAUNCHED",
+    "subtitle": "+ FOR YOU",
+    "imageUrl": "https://placehold.co/300x180/FFD700/333333.png?text=Newly+Launched&font=roboto",
+    "logoUrl": null
+  },
+  {
+    "id": "feat_3",
+    "tag": "Brand In Focus",
+    "title": "MIVI",
+    "subtitle": null, 
+    "imageUrl": "https://placehold.co/300x180/E0E0E0/000000.png?text=MIVI+Background&font=roboto",
+    "logoUrl": "https://placehold.co/80x40/00FF00/FFFFFF.png?text=MIVI"
+  }
+]
